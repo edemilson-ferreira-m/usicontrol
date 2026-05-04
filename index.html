@@ -1,80 +1,106 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>USICONTROL</title>
-
-  <style>
-    body{
-      margin:0;
-      font-family:Arial;
-      background:#111827;
-      color:white;
-      text-align:center;
-    }
-
-    .container{
-      padding:40px 20px;
-    }
-
-    h1{
-      font-size:42px;
-      margin-top:40px;
-      color:#f97316;
-    }
-
-    h2{
-      font-size:22px;
-      color:#d1d5db;
-    }
-
-    .card{
-      margin-top:40px;
-      background:#1f2937;
-      border-radius:20px;
-      padding:30px;
-    }
-
-    button{
-      margin-top:30px;
-      background:#f97316;
-      border:none;
-      color:white;
-      padding:16px 30px;
-      border-radius:15px;
-      font-size:18px;
-    }
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USICONTROL</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#050b12;color:white}
+.hero{
+min-height:100vh;
+padding:28px 5vw;
+background:
+linear-gradient(90deg,rgba(5,11,18,.96),rgba(5,11,18,.78),rgba(5,11,18,.25)),
+url("https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1800&q=80");
+background-size:cover;
+background-position:center;
+}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo-area{display:flex;gap:14px;align-items:center}
+.engrenagem{
+width:62px;height:62px;border:8px solid #e5e7eb;border-right-color:#ff7a18;border-radius:50%;
+}
+.logo{font-size:36px;font-weight:900}
+.logo span{color:#ff7a18}
+.sublogo{font-size:12px;color:#cbd5e1;letter-spacing:3px}
+nav{display:flex;gap:24px;align-items:center;font-size:13px;font-weight:bold;text-transform:uppercase}
+nav a{color:white;text-decoration:none}
+.demo{background:#ff7a18;padding:14px 22px;border-radius:8px}
+.conteudo{max-width:700px;margin-top:115px}
+h1{font-size:58px;line-height:1.02;margin:0;text-transform:uppercase}
+h1 span{color:#ff7a18}
+p{font-size:19px;line-height:1.55;color:#e5e7eb}
+.botoes{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
+.btn{padding:16px 26px;border-radius:8px;text-decoration:none;color:white;font-weight:bold}
+.primario{background:#ff7a18}
+.secundario{border:1px solid #fff;background:rgba(255,255,255,.08)}
+.recursos{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+margin-top:95px;
+background:rgba(2,8,15,.55);
+border-top:1px solid rgba(255,255,255,.15);
+border-bottom:1px solid rgba(255,255,255,.15);
+}
+.item{padding:22px 18px;border-right:1px solid rgba(255,255,255,.15)}
+.item:last-child{border-right:0}
+.icon{color:#ff7a18;font-size:32px;margin-bottom:10px}
+.item h3{margin:0 0 8px;font-size:14px;text-transform:uppercase}
+.item p{margin:0;font-size:12px;color:#cbd5e1}
+.frase{text-align:center;margin-top:25px;font-size:22px;letter-spacing:3px;text-transform:uppercase}
+.frase span{color:#ff7a18;font-weight:900}
+@media(max-width:850px){
+nav{display:none}
+.logo{font-size:30px}
+.sublogo{font-size:10px}
+.conteudo{margin-top:85px}
+h1{font-size:42px}
+.recursos{grid-template-columns:repeat(2,1fr);margin-top:70px}
+.item{border-bottom:1px solid rgba(255,255,255,.15)}
+.frase{font-size:16px;line-height:1.7}
+}
+</style>
 </head>
 <body>
+<section class="hero">
+<header>
+<div class="logo-area">
+<div class="engrenagem"></div>
+<div>
+<div class="logo"><span>USI</span>CONTROL</div>
+<div class="sublogo">CONTROLE INTELIGENTE PARA USINAGENS</div>
+</div>
+</div>
+<nav>
+<a href="#">Início</a>
+<a href="#">Soluções</a>
+<a href="#">Recursos</a>
+<a href="#">Planos</a>
+<a href="#">Contato</a>
+<a class="demo" href="#">Demonstração</a>
+</nav>
+</header>
 
-<div class="container">
-
-  <h1>USICONTROL</h1>
-
-  <h2>
-    Controle inteligente para usinagens
-  </h2>
-
-  <div class="card">
-
-    <h3>
-      Do e-mail à entrega.
-    </h3>
-
-    <p>
-      OCR • OP • Produção • Entrega • Financeiro
-    </p>
-
-    <button>
-      Começar agora
-    </button>
-
-  </div>
-
+<div class="conteudo">
+<h1>Do e-mail<br><span>à entrega.</span><br>Tudo sob controle.</h1>
+<p>Receba pedidos, leia desenhos com OCR, gere ordens de produção, acompanhe cada etapa e entregue com profissionalismo.</p>
+<div class="botoes">
+<a class="btn primario" href="#">🚀 Começar agora</a>
+<a class="btn secundario" href="#">▶ Ver como funciona</a>
+</div>
 </div>
 
+<div class="recursos">
+<div class="item"><div class="icon">✉</div><h3>Receba</h3><p>Pedidos por e-mail centralizados.</p></div>
+<div class="item"><div class="icon">OCR</div><h3>Leia</h3><p>Extração automática de dados e desenhos.</p></div>
+<div class="item"><div class="icon">📋</div><h3>Gere</h3><p>Ordens de produção impressas.</p></div>
+<div class="item"><div class="icon">⚙</div><h3>Acompanhe</h3><p>Produção em tempo real e prazos.</p></div>
+<div class="item"><div class="icon">🚚</div><h3>Entregue</h3><p>Relatórios profissionais e assinaturas.</p></div>
+<div class="item"><div class="icon">▥</div><h3>Controle</h3><p>Histórico, preços e resultados.</p></div>
+</div>
+
+<div class="frase">Menos papel. Menos erros. <span>Mais produtividade. Mais lucro.</span></div>
+</section>
 </body>
 </html>
