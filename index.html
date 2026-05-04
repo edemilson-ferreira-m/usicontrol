@@ -6,64 +6,79 @@
 <title>USICONTROL</title>
 <style>
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#050b12;color:white}
+a{text-decoration:none;color:inherit}
+
 .hero{
-min-height:100vh;
-padding:28px 5vw;
-background:
-linear-gradient(90deg,rgba(5,11,18,.96),rgba(5,11,18,.78),rgba(5,11,18,.25)),
+min-height:100vh;padding:28px 5vw;
+background:linear-gradient(90deg,rgba(5,11,18,.96),rgba(5,11,18,.78),rgba(5,11,18,.25)),
 url("https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1800&q=80");
-background-size:cover;
-background-position:center;
+background-size:cover;background-position:center;
 }
 header{display:flex;justify-content:space-between;align-items:center}
 .logo-area{display:flex;gap:14px;align-items:center}
-.engrenagem{
-width:62px;height:62px;border:8px solid #e5e7eb;border-right-color:#ff7a18;border-radius:50%;
-}
-.logo{font-size:36px;font-weight:900}
-.logo span{color:#ff7a18}
+.engrenagem{width:62px;height:62px;border:8px solid #e5e7eb;border-right-color:#ff7a18;border-radius:50%}
+.logo{font-size:36px;font-weight:900}.logo span{color:#ff7a18}
 .sublogo{font-size:12px;color:#cbd5e1;letter-spacing:3px}
 nav{display:flex;gap:24px;align-items:center;font-size:13px;font-weight:bold;text-transform:uppercase}
-nav a{color:white;text-decoration:none}
 .demo{background:#ff7a18;padding:14px 22px;border-radius:8px}
+
 .conteudo{max-width:700px;margin-top:115px}
 h1{font-size:58px;line-height:1.02;margin:0;text-transform:uppercase}
 h1 span{color:#ff7a18}
 p{font-size:19px;line-height:1.55;color:#e5e7eb}
 .botoes{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
-.btn{padding:16px 26px;border-radius:8px;text-decoration:none;color:white;font-weight:bold}
+.btn{padding:16px 26px;border-radius:8px;font-weight:bold;display:inline-block}
 .primario{background:#ff7a18}
 .secundario{border:1px solid #fff;background:rgba(255,255,255,.08)}
+
 .recursos{
-display:grid;
-grid-template-columns:repeat(6,1fr);
-margin-top:95px;
+display:grid;grid-template-columns:repeat(6,1fr);margin-top:95px;
 background:rgba(2,8,15,.55);
 border-top:1px solid rgba(255,255,255,.15);
-border-bottom:1px solid rgba(255,255,255,.15);
+border-bottom:1px solid rgba(255,255,255,.15)
 }
 .item{padding:22px 18px;border-right:1px solid rgba(255,255,255,.15)}
-.item:last-child{border-right:0}
-.icon{color:#ff7a18;font-size:32px;margin-bottom:10px}
+.item:last-child{border-right:0}.icon{color:#ff7a18;font-size:32px;margin-bottom:10px}
 .item h3{margin:0 0 8px;font-size:14px;text-transform:uppercase}
 .item p{margin:0;font-size:12px;color:#cbd5e1}
 .frase{text-align:center;margin-top:25px;font-size:22px;letter-spacing:3px;text-transform:uppercase}
 .frase span{color:#ff7a18;font-weight:900}
+
+section.bloco{padding:70px 5vw;background:#07111d}
+.titulo{font-size:38px;margin:0 0 15px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:35px}
+.card{background:#101b2b;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:26px}
+.card h3{color:#ff7a18;margin-top:0}
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:35px}
+.passo{background:#0c1725;border-left:4px solid #ff7a18;padding:22px;border-radius:14px}
+.passo strong{font-size:26px;color:#ff7a18}
+
+.cadastro{background:#050b12;padding:80px 5vw}
+.formbox{max-width:850px;margin:auto;background:#101b2b;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+input{width:100%;padding:16px;border-radius:12px;border:1px solid #334155;background:#050b12;color:white;font-size:16px}
+label{font-weight:bold;color:#cbd5e1}
+.emailgerado{margin-top:22px;background:rgba(255,122,24,.12);border:1px solid rgba(255,122,24,.4);border-radius:16px;padding:20px}
+.emailgerado b{font-size:24px;color:#ff7a18}
+
+.rodape{padding:28px;text-align:center;background:#03070d;color:#94a3b8}
+
 @media(max-width:850px){
-nav{display:none}
-.logo{font-size:30px}
-.sublogo{font-size:10px}
-.conteudo{margin-top:85px}
-h1{font-size:42px}
+nav{display:none}.logo{font-size:30px}.sublogo{font-size:10px}
+.conteudo{margin-top:85px}h1{font-size:42px}
 .recursos{grid-template-columns:repeat(2,1fr);margin-top:70px}
 .item{border-bottom:1px solid rgba(255,255,255,.15)}
+.grade,.passos,.formgrid{grid-template-columns:1fr}
 .frase{font-size:16px;line-height:1.7}
 }
 </style>
 </head>
+
 <body>
-<section class="hero">
+
+<section class="hero" id="inicio">
 <header>
 <div class="logo-area">
 <div class="engrenagem"></div>
@@ -73,12 +88,11 @@ h1{font-size:42px}
 </div>
 </div>
 <nav>
-<a href="#">Início</a>
-<a href="#">Soluções</a>
-<a href="#">Recursos</a>
-<a href="#">Planos</a>
-<a href="#">Contato</a>
-<a class="demo" href="#">Demonstração</a>
+<a href="#inicio">Início</a>
+<a href="#solucoes">Soluções</a>
+<a href="#como-funciona">Recursos</a>
+<a href="#planos">Planos</a>
+<a href="#cadastro" class="demo">Demonstração</a>
 </nav>
 </header>
 
@@ -86,8 +100,8 @@ h1{font-size:42px}
 <h1>Do e-mail<br><span>à entrega.</span><br>Tudo sob controle.</h1>
 <p>Receba pedidos, leia desenhos com OCR, gere ordens de produção, acompanhe cada etapa e entregue com profissionalismo.</p>
 <div class="botoes">
-<a class="btn primario" href="#">🚀 Começar agora</a>
-<a class="btn secundario" href="#">▶ Ver como funciona</a>
+<a class="btn primario" href="#cadastro">🚀 Começar agora</a>
+<a class="btn secundario" href="#como-funciona">▶ Ver como funciona</a>
 </div>
 </div>
 
@@ -102,5 +116,64 @@ h1{font-size:42px}
 
 <div class="frase">Menos papel. Menos erros. <span>Mais produtividade. Mais lucro.</span></div>
 </section>
+
+<section class="bloco" id="solucoes">
+<h2 class="titulo">Soluções para usinagens</h2>
+<p>O USICONTROL foi pensado para terceiros, oficinas CNC, ferramentarias e prestadores industriais que recebem desenhos por e-mail e precisam controlar produção, entrega e valores.</p>
+
+<div class="grade">
+<div class="card"><h3>Importação por e-mail</h3><p>Cada empresa recebe um endereço exclusivo, como usitech@usicontrol.com.br.</p></div>
+<div class="card"><h3>OCR de desenhos</h3><p>O sistema lê dados do PDF e ajuda a montar a OP automaticamente.</p></div>
+<div class="card"><h3>Romaneio profissional</h3><p>Lista de entrega com código, descrição, quantidade, valor unitário, total e assinaturas.</p></div>
+</div>
+</section>
+
+<section class="bloco" id="como-funciona">
+<h2 class="titulo">Como funciona</h2>
+<div class="passos">
+<div class="passo"><strong>1</strong><h3>Receba</h3><p>O cliente envia o e-mail com desenhos.</p></div>
+<div class="passo"><strong>2</strong><h3>Encaminhe</h3><p>A usinagem encaminha para o e-mail do USICONTROL.</p></div>
+<div class="passo"><strong>3</strong><h3>Gere OP</h3><p>O sistema lê, organiza e cria a ordem de produção.</p></div>
+<div class="passo"><strong>4</strong><h3>Entregue</h3><p>Finaliza com romaneio, valores e assinaturas.</p></div>
+</div>
+</section>
+
+<section class="bloco" id="planos">
+<h2 class="titulo">Planos</h2>
+<div class="grade">
+<div class="card"><h3>Start</h3><p>Pedidos, OCR, OP, alertas e romaneio.</p><h2>R$ 79/mês</h2></div>
+<div class="card"><h3>Pro</h3><p>Histórico de preços, financeiro e dashboards.</p><h2>R$ 149/mês</h2></div>
+<div class="card"><h3>Industrial</h3><p>Multiusuário, integrações e relatórios avançados.</p><h2>Sob consulta</h2></div>
+</div>
+</section>
+
+<section class="cadastro" id="cadastro">
+<div class="formbox">
+<h2 class="titulo">Começar agora</h2>
+<p>Cadastre sua usinagem e receba um e-mail exclusivo para importar pedidos automaticamente.</p>
+
+<div class="formgrid">
+<div><label>Empresa</label><input placeholder="Ex: Usitech"></div>
+<div><label>CNPJ</label><input placeholder="00.000.000/0001-00"></div>
+<div><label>Responsável</label><input placeholder="Nome do responsável"></div>
+<div><label>Celular</label><input placeholder="(19) 99999-9999"></div>
+<div><label>E-mail de login</label><input placeholder="contato@empresa.com.br"></div>
+<div><label>Senha</label><input type="password" placeholder="Crie uma senha"></div>
+</div>
+
+<div class="emailgerado">
+<p>E-mail exclusivo sugerido:</p>
+<b>usitech@usicontrol.com.br</b>
+<p>Todo pedido encaminhado para esse endereço será importado para o sistema.</p>
+</div>
+
+<a class="btn primario" href="#inicio">Criar conta demonstrativa</a>
+</div>
+</section>
+
+<footer class="rodape">
+USICONTROL — Controle inteligente para usinagens
+</footer>
+
 </body>
 </html>
