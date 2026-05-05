@@ -29,8 +29,8 @@ h1{font-size:58px;line-height:1.02;margin:0;text-transform:uppercase}
 h1 span{color:#ff7a18}
 p{font-size:19px;line-height:1.55;color:#e5e7eb}
 .botoes{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
-.btn{padding:16px 26px;border-radius:8px;font-weight:bold;display:inline-block}
-.primario{background:#ff7a18}
+.btn{padding:16px 26px;border-radius:8px;font-weight:bold;display:inline-block;border:0;cursor:pointer;font-size:16px}
+.primario{background:#ff7a18;color:white}
 .secundario{border:1px solid #fff;background:rgba(255,255,255,.08)}
 
 .recursos{
@@ -62,6 +62,7 @@ input{width:100%;padding:16px;border-radius:12px;border:1px solid #334155;backgr
 label{font-weight:bold;color:#cbd5e1}
 .emailgerado{margin-top:22px;background:rgba(255,122,24,.12);border:1px solid rgba(255,122,24,.4);border-radius:16px;padding:20px}
 .emailgerado b{font-size:24px;color:#ff7a18}
+#mensagem{margin-top:18px;font-weight:bold}
 
 .rodape{padding:28px;text-align:center;background:#03070d;color:#94a3b8}
 
@@ -119,7 +120,7 @@ nav{display:none}.logo{font-size:30px}.sublogo{font-size:10px}
 
 <section class="bloco" id="solucoes">
 <h2 class="titulo">Soluções para usinagens</h2>
-<p>O USICONTROL foi pensado para terceiros, oficinas CNC, ferramentarias e prestadores industriais que recebem desenhos por e-mail e precisam controlar produção, entrega e valores.</p>
+<p>O USICONTROL foi pensado para terceiros, oficinas CNC, ferramentarias e prestadores industriais.</p>
 
 <div class="grade">
 <div class="card"><h3>Importação por e-mail</h3><p>Cada empresa recebe um endereço exclusivo, como usitech@usicontrol.com.br.</p></div>
@@ -153,27 +154,106 @@ nav{display:none}.logo{font-size:30px}.sublogo{font-size:10px}
 <p>Cadastre sua usinagem e receba um e-mail exclusivo para importar pedidos automaticamente.</p>
 
 <div class="formgrid">
-<div><label>Empresa</label><input placeholder="Ex: Usitech"></div>
-<div><label>CNPJ</label><input placeholder="00.000.000/0001-00"></div>
-<div><label>Responsável</label><input placeholder="Nome do responsável"></div>
-<div><label>Celular</label><input placeholder="(19) 99999-9999"></div>
-<div><label>E-mail de login</label><input placeholder="contato@empresa.com.br"></div>
-<div><label>Senha</label><input type="password" placeholder="Crie uma senha"></div>
+<div><label>Empresa</label><input id="empresa" placeholder="Ex: Usitech"></div>
+<div><label>CNPJ</label><input id="cnpj" placeholder="00.000.000/0001-00"></div>
+<div><label>Responsável</label><input id="responsavel" placeholder="Nome do responsável"></div>
+<div><label>Celular</label><input id="celular" placeholder="(19) 99999-9999"></div>
+<div><label>E-mail de login</label><input id="emailLogin" placeholder="contato@empresa.com.br"></div>
+<div><label>Senha</label><input id="senha" type="password" placeholder="Crie uma senha"></div>
 </div>
 
 <div class="emailgerado">
 <p>E-mail exclusivo sugerido:</p>
-<b>usitech@usicontrol.com.br</b>
+<b id="emailExclusivo">empresa@usicontrol.com.br</b>
 <p>Todo pedido encaminhado para esse endereço será importado para o sistema.</p>
 </div>
 
-<a class="btn primario" href="#inicio">Criar conta demonstrativa</a>
+<button class="btn primario" onclick="salvarCadastro()">Criar conta demonstrativa</button>
+<p id="mensagem"></p>
 </div>
 </section>
 
 <footer class="rodape">
 USICONTROL — Controle inteligente para usinagens
 </footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCuBXShUdoiAVI-hZAvjrZZPka5GAnNfso",
+  authDomain: "usicontrol-a84cf.firebaseapp.com",
+  databaseURL: "https://usicontrol-a84cf-default-rtdb.firebaseio.com",
+  projectId: "usicontrol-a84cf",
+  storageBucket: "usicontrol-a84cf.firebasestorage.app",
+  messagingSenderId: "491445736281",
+  appId: "1:491445736281:web:c44301abddd12b979ab248",
+  measurementId: "G-2Q8BFZWL5G"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+function gerarEmail(nomeEmpresa){
+  const slug = nomeEmpresa
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+  return (slug || "empresa") + "@usicontrol.com.br";
+}
+
+document.getElementById("empresa").addEventListener("input", function(){
+  document.getElementById("emailExclusivo").innerText = gerarEmail(this.value);
+});
+
+window.salvarCadastro = async function(){
+  const empresa = document.getElementById("empresa").value.trim();
+  const cnpj = document.getElementById("cnpj").value.trim();
+  const responsavel = document.getElementById("responsavel").value.trim();
+  const celular = document.getElementById("celular").value.trim();
+  const emailLogin = document.getElementById("emailLogin").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+  const emailExclusivo = gerarEmail(empresa);
+  const mensagem = document.getElementById("mensagem");
+
+  if(!empresa || !responsavel || !emailLogin || !senha){
+    mensagem.style.color = "#ff7a18";
+    mensagem.innerText = "Preencha empresa, responsável, e-mail e senha.";
+    return;
+  }
+
+  try{
+    const novaEmpresa = push(ref(database, "empresas"));
+    await set(novaEmpresa, {
+      empresa,
+      cnpj,
+      responsavel,
+      celular,
+      emailLogin,
+      senha,
+      emailExclusivo,
+      plano: "Start Demonstrativo",
+      criadoEm: new Date().toISOString()
+    });
+
+    mensagem.style.color = "#22c55e";
+    mensagem.innerText = "Cadastro realizado com sucesso! Dados salvos no Firebase.";
+
+    document.getElementById("empresa").value = "";
+    document.getElementById("cnpj").value = "";
+    document.getElementById("responsavel").value = "";
+    document.getElementById("celular").value = "";
+    document.getElementById("emailLogin").value = "";
+    document.getElementById("senha").value = "";
+    document.getElementById("emailExclusivo").innerText = "empresa@usicontrol.com.br";
+  }catch(erro){
+    mensagem.style.color = "#ef4444";
+    mensagem.innerText = "Erro ao salvar. Verifique o Firebase.";
+    console.error(erro);
+  }
+}
+</script>
 
 </body>
 </html>
