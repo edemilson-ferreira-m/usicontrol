@@ -1,226 +1,885 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>USICONTROL V6 - Controle Inteligente para Usinagens</title>
 
-<title>USICONTROL</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --card: #101b2e;
+      --card2: #13223a;
+      --primary: #1e88ff;
+      --primary2: #00c2ff;
+      --success: #28c76f;
+      --warning: #ffb020;
+      --danger: #ff4d4f;
+      --text: #f3f7ff;
+      --muted: #9fb0c9;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 18px 45px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
 
-<style>
+    * { box-sizing: border-box; }
 
-body{
-margin:0;
-background:#020d1f;
-font-family:Arial;
-color:white;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, #15345f 0, #08111f 35%, #050914 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-.header{
-padding:25px;
-border-bottom:1px solid #1d2d4d;
-}
+    header {
+      padding: 22px 18px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,17,31,0.88);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-.logo{
-font-size:38px;
-font-weight:bold;
-color:#ff7a00;
-}
+    .topbar {
+      max-width: 1180px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-.sub{
-color:#8fa4c5;
-margin-top:8px;
-}
+    .brand h1 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 1px;
+    }
 
-.boxEmail{
-margin:20px;
-background:#2a1b14;
-border:1px solid #9f5620;
-padding:18px;
-border-radius:12px;
-}
+    .brand p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-.menu{
-padding:20px;
-}
+    .badge {
+      border: 1px solid var(--border);
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      font-size: 13px;
+    }
 
-.titulo{
-font-size:32px;
-font-weight:bold;
-margin-bottom:20px;
-}
+    main {
+      max-width: 1180px;
+      margin: auto;
+      padding: 22px 16px 55px;
+    }
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:15px;
-}
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
 
-th{
-background:#09172d;
-padding:15px;
-text-align:left;
-}
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-td{
-padding:15px;
-border-bottom:1px solid #13223d;
-}
+    .card {
+      background: linear-gradient(145deg, rgba(16,27,46,0.98), rgba(10,18,32,0.98));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
 
-.status{
-background:#103d17;
-padding:8px 14px;
-border-radius:20px;
-display:inline-block;
-}
+    .hero {
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: stretch;
+    }
 
-</style>
+    h2, h3 { margin-top: 0; }
+
+    .hero h2 {
+      font-size: 42px;
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button, .btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 12px 15px;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      box-shadow: 0 10px 25px rgba(30,136,255,0.22);
+    }
+
+    button.secondary, .btn.secondary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    button.danger { background: var(--danger); }
+    button.success { background: var(--success); }
+    button.warning { background: var(--warning); color: #141414; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      outline: none;
+      margin-top: 6px;
+    }
+
+    option { color: #111; }
+
+    textarea { min-height: 90px; resize: vertical; }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .kpi {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.055);
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .kpi strong {
+      font-size: 24px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+
+    .tab {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: white;
+      border-color: transparent;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th, td {
+      padding: 11px 9px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .s-novo { background: rgba(30,136,255,0.18); color: #8dc5ff; }
+    .s-producao { background: rgba(255,176,32,0.18); color: #ffd28a; }
+    .s-entregue { background: rgba(40,199,111,0.18); color: #8af0b8; }
+    .s-atrasado { background: rgba(255,77,79,0.18); color: #ff9b9c; }
+
+    .hidden { display: none !important; }
+
+    .small { font-size: 12px; color: var(--muted); }
+
+    .login-box {
+      max-width: 430px;
+      margin: 35px auto;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      margin: 12px 0;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    .bar-wrap {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      width: 0%;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2, .grid-3, .grid-4, .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h2 { font-size: 32px; }
+      header { position: relative; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="header">
-
-<div class="logo">USICONTROL</div>
-
-<div class="sub">
-WCH usinagem — Painel da empresa
-</div>
-
-</div>
-
-
-<div class="boxEmail">
-
-<b>E-mail de importação</b><br><br>
-
-pedidos.usicontrol@gmail.com
-
-</div>
-
-
-<div class="menu">
-
-<div class="titulo">
-Pedidos Importados
-</div>
-
-
-<table>
-
-<thead>
-
-<tr>
-<th>Status</th>
-<th>Cliente</th>
-<th>Código</th>
-<th>Descrição</th>
-<th>Qtd</th>
-</tr>
-
-</thead>
-
-<tbody id="listaPedidos">
-
-</tbody>
-
-</table>
-
-</div>
-
-
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-getDatabase,
-ref,
-onValue
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-
-const firebaseConfig = {
-
-apiKey:"SUA_API_KEY",
-
-authDomain:"usicontrol-a84cf.firebaseapp.com",
-
-databaseURL:
-"https://usicontrol-a84cf-default-rtdb.firebaseio.com",
-
-projectId:"usicontrol-a84cf"
-
-};
-
-
-const app = initializeApp(firebaseConfig);
-
-const db = getDatabase(app);
-
-
-const tabela =
-document.getElementById("listaPedidos");
-
-
-onValue(
-
-ref(db,"pedidos"),
-
-(snapshot)=>{
-
-const dados = snapshot.val();
-
-tabela.innerHTML="";
-
-
-if(!dados){
-
-tabela.innerHTML=
-"<tr><td colspan='5'>Nenhum pedido encontrado.</td></tr>";
-
-return;
-
-}
-
-
-Object.values(dados).forEach(empresa=>{
-
-Object.values(empresa).forEach(pedido=>{
-
-tabela.innerHTML += `
-
-<tr>
-
-<td>
-
-<span class="status">
-
-${pedido.status || "Novo"}
-
-</span>
-
-</td>
-
-<td>${pedido.cliente || "-"}</td>
-
-<td>${pedido.codigo || "-"}</td>
-
-<td>${pedido.descricao || "-"}</td>
-
-<td>${pedido.qtd || "-"}</td>
-
-</tr>
-
-`;
-
-});
-
-});
-
-});
-
-</script>
-
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <h1>USICONTROL</h1>
+        <p>Do e-mail à entrega. Tudo sob controle.</p>
+      </div>
+      <div class="badge" id="userBadge">V6 SaaS Industrial</div>
+    </div>
+  </header>
+
+  <main>
+    <section id="sitePublico" class="grid">
+      <div class="hero">
+        <div class="card">
+          <h2>Controle inteligente para terceiros de usinagem.</h2>
+          <p>
+            Sistema para oficinas CNC, ferramentarias e prestadores industriais controlarem pedidos,
+            produção, entregas, valores e histórico comercial em um painel simples e profissional.
+          </p>
+          <div class="btn-row">
+            <button onclick="mostrarCadastro()">Começar agora</button>
+            <button class="secondary" onclick="mostrarLogin()">Entrar no painel</button>
+          </div>
+          <div class="grid grid-3" style="margin-top:22px;">
+            <div class="kpi"><span>Pedidos</span><strong>OP</strong></div>
+            <div class="kpi"><span>Produção</span><strong>CNC</strong></div>
+            <div class="kpi"><span>Entrega</span><strong>Romaneio</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Fluxo da V6</h3>
+          <p class="small">1. Empresa se cadastra</p>
+          <p class="small">2. Acessa painel próprio</p>
+          <p class="small">3. Registra pedidos e OPs</p>
+          <p class="small">4. Acompanha status de produção</p>
+          <p class="small">5. Controla entregas e valores</p>
+          <p class="small">6. Consulta dashboard executivo</p>
+          <div class="alert">
+            Esta versão já funciona com Firebase Realtime Database usando a estrutura por empresa.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cadastroBox" class="hidden">
+      <div class="card login-box">
+        <h2>Cadastro da empresa</h2>
+        <div class="form-grid">
+          <div class="full">
+            <label>Nome da empresa</label>
+            <input id="cadEmpresa" placeholder="Ex: Usitech Usinagem" />
+          </div>
+          <div>
+            <label>Responsável</label>
+            <input id="cadResponsavel" placeholder="Nome" />
+          </div>
+          <div>
+            <label>Telefone / WhatsApp</label>
+            <input id="cadTelefone" placeholder="(19) 99999-9999" />
+          </div>
+          <div class="full">
+            <label>E-mail</label>
+            <input id="cadEmail" type="email" placeholder="empresa@email.com" />
+          </div>
+          <div>
+            <label>Senha</label>
+            <input id="cadSenha" type="password" placeholder="Crie uma senha" />
+          </div>
+          <div>
+            <label>Segmento</label>
+            <select id="cadSegmento">
+              <option>Usinagem CNC</option>
+              <option>Ferramentaria</option>
+              <option>Caldeiraria</option>
+              <option>Manutenção Industrial</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="full">
+            <button onclick="cadastrarEmpresa()">Salvar cadastro</button>
+            <button class="secondary" onclick="voltarHome()" style="margin-top:8px;">Voltar</button>
+          </div>
+        </div>
+        <div id="msgCadastro" class="alert hidden"></div>
+      </div>
+    </section>
+
+    <section id="loginBox" class="hidden">
+      <div class="card login-box">
+        <h2>Entrar no painel</h2>
+        <label>E-mail</label>
+        <input id="loginEmail" type="email" placeholder="empresa@email.com" />
+        <label style="display:block;margin-top:12px;">Senha</label>
+        <input id="loginSenha" type="password" placeholder="Senha" />
+        <div class="btn-row">
+          <button onclick="loginEmpresa()">Entrar</button>
+          <button class="secondary" onclick="voltarHome()">Voltar</button>
+        </div>
+        <div class="alert">
+          Usuário de teste: <b>admin@usicontrol.com</b><br />Senha: <b>123456</b>
+        </div>
+        <div id="msgLogin" class="alert hidden"></div>
+      </div>
+    </section>
+
+    <section id="painel" class="hidden">
+      <div class="card">
+        <div class="topbar" style="padding:0;">
+          <div>
+            <h2 id="tituloPainel">Painel da empresa</h2>
+            <p class="small" id="subPainel">Gestão de pedidos, produção, entregas e financeiro</p>
+          </div>
+          <button class="secondary" onclick="sair()">Sair</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="abrirAba('dashboard', this)">Dashboard</div>
+        <div class="tab" onclick="abrirAba('pedidos', this)">Pedidos</div>
+        <div class="tab" onclick="abrirAba('producao', this)">Produção</div>
+        <div class="tab" onclick="abrirAba('entregas', this)">Entregas</div>
+        <div class="tab" onclick="abrirAba('financeiro', this)">Financeiro</div>
+        <div class="tab" onclick="abrirAba('clientes', this)">Clientes</div>
+      </div>
+
+      <div id="aba-dashboard" class="aba">
+        <div class="grid grid-4">
+          <div class="kpi"><span>Total de pedidos</span><strong id="kpiPedidos">0</strong></div>
+          <div class="kpi"><span>Em produção</span><strong id="kpiProducao">0</strong></div>
+          <div class="kpi"><span>Entregues</span><strong id="kpiEntregues">0</strong></div>
+          <div class="kpi"><span>Faturamento previsto</span><strong id="kpiValor">R$ 0,00</strong></div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:16px;">
+          <div class="card">
+            <h3>Resumo operacional</h3>
+            <p class="small">Percentual de pedidos entregues</p>
+            <div class="bar-wrap"><div class="bar" id="barEntregas"></div></div>
+            <p class="small" id="txtEntregas">0%</p>
+          </div>
+          <div class="card">
+            <h3>Alertas</h3>
+            <div id="listaAlertas" class="small">Nenhum alerta.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aba-pedidos" class="aba hidden">
+        <div class="card">
+          <h3>Novo pedido / OP</h3>
+          <div class="form-grid">
+            <div><label>Cliente</label><input id="pCliente" placeholder="Nome do cliente" /></div>
+            <div><label>OP / Pedido</label><input id="pOP" placeholder="Ex: OP-001" /></div>
+            <div><label>Peça / descrição</label><input id="pDescricao" placeholder="Ex: Eixo usinado" /></div>
+            <div><label>Quantidade</label><input id="pQtd" type="number" placeholder="10" /></div>
+            <div><label>Valor unitário</label><input id="pValor" type="number" step="0.01" placeholder="150.00" /></div>
+            <div><label>Data de entrega</label><input id="pEntrega" type="date" /></div>
+            <div><label>Status</label>
+              <select id="pStatus">
+                <option value="Novo">Novo</option>
+                <option value="Em produção">Em produção</option>
+                <option value="Entregue">Entregue</option>
+                <option value="Atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div><label>Desenho / anexo</label><input id="pAnexo" placeholder="Nome do arquivo ou link" /></div>
+            <div class="full"><label>Observações</label><textarea id="pObs" placeholder="Material, tratamento, tolerâncias, notas..."></textarea></div>
+            <div class="full"><button onclick="salvarPedido()">Salvar pedido</button></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <h3>Lista de pedidos</h3>
+          <div id="tabelaPedidos"></div>
+        </div>
+      </div>
+
+      <div id="aba-producao" class="aba hidden">
+        <div class="card">
+          <h3>Apontamento de produção</h3>
+          <div class="form-grid">
+            <div><label>OP</label><input id="prodOP" placeholder="OP-001" /></div>
+            <div><label>Máquina</label><input id="prodMaquina" placeholder="GL300, GL250, Fresa CNC..." /></div>
+            <div><label>Operador</label><input id="prodOperador" placeholder="Nome" /></div>
+            <div><label>Qtd produzida</label><input id="prodQtd" type="number" /></div>
+            <div><label>Horas trabalhadas</label><input id="prodHoras" type="number" step="0.01" /></div>
+            <div><label>Status</label>
+              <select id="prodStatus">
+                <option>Em produção</option>
+                <option>Pausado</option>
+                <option>Finalizado</option>
+              </select>
+            </div>
+            <div class="full"><label>Observação</label><textarea id="prodObs"></textarea></div>
+            <div class="full"><button onclick="salvarProducao()">Salvar apontamento</button></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px;"><h3>Histórico de produção</h3><div id="tabelaProducao"></div></div>
+      </div>
+
+      <div id="aba-entregas" class="aba hidden">
+        <div class="card">
+          <h3>Romaneio de entrega</h3>
+          <div class="form-grid">
+            <div><label>OP</label><input id="eOP" placeholder="OP-001" /></div>
+            <div><label>Cliente</label><input id="eCliente" placeholder="Cliente" /></div>
+            <div><label>Data da entrega</label><input id="eData" type="date" /></div>
+            <div><label>Quantidade entregue</label><input id="eQtd" type="number" /></div>
+            <div class="full"><label>Responsável / assinatura</label><input id="eResp" placeholder="Nome de quem recebeu" /></div>
+            <div class="full"><button onclick="salvarEntrega()">Salvar entrega</button></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px;"><h3>Histórico de entregas</h3><div id="tabelaEntregas"></div></div>
+      </div>
+
+      <div id="aba-financeiro" class="aba hidden">
+        <div class="card">
+          <h3>Financeiro</h3>
+          <div class="grid grid-3">
+            <div class="kpi"><span>Valor em aberto</span><strong id="finAberto">R$ 0,00</strong></div>
+            <div class="kpi"><span>Valor entregue</span><strong id="finEntregue">R$ 0,00</strong></div>
+            <div class="kpi"><span>Total geral</span><strong id="finTotal">R$ 0,00</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aba-clientes" class="aba hidden">
+        <div class="card">
+          <h3>Clientes identificados</h3>
+          <div id="listaClientes"></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">USICONTROL V6 • Firebase + Netlify • Base SaaS para terceiros de usinagem</p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      databaseURL: "https://usicontrol-a84cf-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let empresaAtual = null;
+    let empresaIdAtual = null;
+    let pedidos = [];
+    let producoes = [];
+    let entregas = [];
+
+    const adminTeste = {
+      id: "admin_teste",
+      empresa: "Empresa Teste USICONTROL",
+      responsavel: "Edemilson",
+      telefone: "(19) 99999-9999",
+      email: "admin@usicontrol.com",
+      senha: "123456",
+      segmento: "Usinagem CNC"
+    };
+
+    function moeda(v) {
+      return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function hojeISO() {
+      return new Date().toISOString().slice(0,10);
+    }
+
+    function normalizarEmail(email) {
+      return String(email || '').trim().toLowerCase();
+    }
+
+    function statusClass(status) {
+      if (status === 'Entregue') return 's-entregue';
+      if (status === 'Em produção') return 's-producao';
+      if (status === 'Atrasado') return 's-atrasado';
+      return 's-novo';
+    }
+
+    window.mostrarCadastro = function() {
+      document.getElementById('sitePublico').classList.add('hidden');
+      document.getElementById('loginBox').classList.add('hidden');
+      document.getElementById('cadastroBox').classList.remove('hidden');
+    }
+
+    window.mostrarLogin = function() {
+      document.getElementById('sitePublico').classList.add('hidden');
+      document.getElementById('cadastroBox').classList.add('hidden');
+      document.getElementById('loginBox').classList.remove('hidden');
+    }
+
+    window.voltarHome = function() {
+      document.getElementById('sitePublico').classList.remove('hidden');
+      document.getElementById('cadastroBox').classList.add('hidden');
+      document.getElementById('loginBox').classList.add('hidden');
+      document.getElementById('painel').classList.add('hidden');
+    }
+
+    window.cadastrarEmpresa = async function() {
+      const empresa = document.getElementById('cadEmpresa').value.trim();
+      const responsavel = document.getElementById('cadResponsavel').value.trim();
+      const telefone = document.getElementById('cadTelefone').value.trim();
+      const email = normalizarEmail(document.getElementById('cadEmail').value);
+      const senha = document.getElementById('cadSenha').value.trim();
+      const segmento = document.getElementById('cadSegmento').value;
+      const msg = document.getElementById('msgCadastro');
+
+      if (!empresa || !responsavel || !email || !senha) {
+        msg.textContent = 'Preencha empresa, responsável, e-mail e senha.';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      const novaRef = push(ref(db, 'empresas'));
+      const dados = {
+        id: novaRef.key,
+        empresa,
+        responsavel,
+        telefone,
+        email,
+        senha,
+        segmento,
+        criadoEm: new Date().toISOString()
+      };
+
+      await set(novaRef, dados);
+      msg.innerHTML = 'Cadastro salvo com sucesso. Abrindo painel...';
+      msg.classList.remove('hidden');
+
+      abrirPainel(dados.id, dados);
+    }
+
+    async function buscarEmpresaPorLogin(email, senha) {
+      if (email === adminTeste.email && senha === adminTeste.senha) return adminTeste;
+
+      const snap = await get(child(ref(db), 'empresas'));
+      if (!snap.exists()) return null;
+
+      const dados = snap.val();
+      for (const id in dados) {
+        const emp = dados[id];
+        if (normalizarEmail(emp.email) === email && String(emp.senha) === String(senha)) {
+          return { ...emp, id };
+        }
+      }
+      return null;
+    }
+
+    window.loginEmpresa = async function() {
+      const email = normalizarEmail(document.getElementById('loginEmail').value);
+      const senha = document.getElementById('loginSenha').value.trim();
+      const msg = document.getElementById('msgLogin');
+
+      if (!email || !senha) {
+        msg.textContent = 'Informe e-mail e senha.';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      const emp = await buscarEmpresaPorLogin(email, senha);
+      if (!emp) {
+        msg.textContent = 'Login não encontrado. Confira e-mail e senha.';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      abrirPainel(emp.id, emp);
+    }
+
+    function abrirPainel(id, empresa) {
+      empresaAtual = empresa;
+      empresaIdAtual = id;
+
+      document.getElementById('sitePublico').classList.add('hidden');
+      document.getElementById('cadastroBox').classList.add('hidden');
+      document.getElementById('loginBox').classList.add('hidden');
+      document.getElementById('painel').classList.remove('hidden');
+      document.getElementById('tituloPainel').textContent = empresa.empresa || 'Painel da empresa';
+      document.getElementById('subPainel').textContent = `${empresa.segmento || 'Empresa'} • Responsável: ${empresa.responsavel || '-'}`;
+      document.getElementById('userBadge').textContent = empresa.empresa || 'Empresa logada';
+
+      carregarDados();
+    }
+
+    window.sair = function() {
+      empresaAtual = null;
+      empresaIdAtual = null;
+      pedidos = [];
+      producoes = [];
+      entregas = [];
+      document.getElementById('userBadge').textContent = 'V6 SaaS Industrial';
+      voltarHome();
+    }
+
+    window.abrirAba = function(nome, el) {
+      document.querySelectorAll('.aba').forEach(a => a.classList.add('hidden'));
+      document.getElementById('aba-' + nome).classList.remove('hidden');
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      atualizarTudo();
+    }
+
+    function caminhoEmpresa(sub) {
+      return `dados/${empresaIdAtual}/${sub}`;
+    }
+
+    function carregarDados() {
+      onValue(ref(db, caminhoEmpresa('pedidos')), snap => {
+        pedidos = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
+        atualizarTudo();
+      });
+
+      onValue(ref(db, caminhoEmpresa('producao')), snap => {
+        producoes = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
+        atualizarTudo();
+      });
+
+      onValue(ref(db, caminhoEmpresa('entregas')), snap => {
+        entregas = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
+        atualizarTudo();
+      });
+    }
+
+    window.salvarPedido = async function() {
+      if (!empresaIdAtual) return alert('Faça login primeiro.');
+
+      const item = {
+        cliente: document.getElementById('pCliente').value.trim(),
+        op: document.getElementById('pOP').value.trim(),
+        descricao: document.getElementById('pDescricao').value.trim(),
+        qtd: Number(document.getElementById('pQtd').value || 0),
+        valor: Number(document.getElementById('pValor').value || 0),
+        entrega: document.getElementById('pEntrega').value,
+        status: document.getElementById('pStatus').value,
+        anexo: document.getElementById('pAnexo').value.trim(),
+        obs: document.getElementById('pObs').value.trim(),
+        criadoEm: new Date().toISOString()
+      };
+
+      if (!item.cliente || !item.op || !item.descricao) {
+        alert('Preencha Cliente, OP e Descrição.');
+        return;
+      }
+
+      await push(ref(db, caminhoEmpresa('pedidos')), item);
+      ['pCliente','pOP','pDescricao','pQtd','pValor','pEntrega','pAnexo','pObs'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('pStatus').value = 'Novo';
+      alert('Pedido salvo.');
+    }
+
+    window.salvarProducao = async function() {
+      if (!empresaIdAtual) return alert('Faça login primeiro.');
+      const item = {
+        op: document.getElementById('prodOP').value.trim(),
+        maquina: document.getElementById('prodMaquina').value.trim(),
+        operador: document.getElementById('prodOperador').value.trim(),
+        qtd: Number(document.getElementById('prodQtd').value || 0),
+        horas: Number(document.getElementById('prodHoras').value || 0),
+        status: document.getElementById('prodStatus').value,
+        obs: document.getElementById('prodObs').value.trim(),
+        data: hojeISO(),
+        criadoEm: new Date().toISOString()
+      };
+      if (!item.op || !item.maquina) return alert('Preencha OP e Máquina.');
+      await push(ref(db, caminhoEmpresa('producao')), item);
+      ['prodOP','prodMaquina','prodOperador','prodQtd','prodHoras','prodObs'].forEach(id => document.getElementById(id).value = '');
+      alert('Apontamento salvo.');
+    }
+
+    window.salvarEntrega = async function() {
+      if (!empresaIdAtual) return alert('Faça login primeiro.');
+      const item = {
+        op: document.getElementById('eOP').value.trim(),
+        cliente: document.getElementById('eCliente').value.trim(),
+        data: document.getElementById('eData').value || hojeISO(),
+        qtd: Number(document.getElementById('eQtd').value || 0),
+        responsavel: document.getElementById('eResp').value.trim(),
+        criadoEm: new Date().toISOString()
+      };
+      if (!item.op || !item.cliente) return alert('Preencha OP e Cliente.');
+      await push(ref(db, caminhoEmpresa('entregas')), item);
+      ['eOP','eCliente','eData','eQtd','eResp'].forEach(id => document.getElementById(id).value = '');
+      alert('Entrega salva.');
+    }
+
+    function atualizarTudo() {
+      atualizarDashboard();
+      renderPedidos();
+      renderProducao();
+      renderEntregas();
+      renderFinanceiro();
+      renderClientes();
+    }
+
+    function atualizarDashboard() {
+      const total = pedidos.length;
+      const emProd = pedidos.filter(p => p.status === 'Em produção').length;
+      const entregues = pedidos.filter(p => p.status === 'Entregue').length;
+      const valor = pedidos.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
+      const perc = total ? Math.round((entregues / total) * 100) : 0;
+
+      document.getElementById('kpiPedidos').textContent = total;
+      document.getElementById('kpiProducao').textContent = emProd;
+      document.getElementById('kpiEntregues').textContent = entregues;
+      document.getElementById('kpiValor').textContent = moeda(valor);
+      document.getElementById('barEntregas').style.width = perc + '%';
+      document.getElementById('txtEntregas').textContent = perc + '% dos pedidos entregues';
+
+      const atrasados = pedidos.filter(p => p.status === 'Atrasado' || (p.entrega && p.entrega < hojeISO() && p.status !== 'Entregue'));
+      document.getElementById('listaAlertas').innerHTML = atrasados.length
+        ? atrasados.map(p => `⚠️ ${p.op} - ${p.cliente} - entrega ${p.entrega || '-'}`).join('<br>')
+        : 'Nenhum alerta.';
+    }
+
+    function renderPedidos() {
+      const box = document.getElementById('tabelaPedidos');
+      if (!pedidos.length) {
+        box.innerHTML = '<p class="small">Nenhum pedido lançado.</p>';
+        return;
+      }
+      box.innerHTML = `<table><thead><tr><th>OP</th><th>Cliente</th><th>Descrição</th><th>Qtd</th><th>Valor</th><th>Entrega</th><th>Status</th><th>Anexo</th></tr></thead><tbody>${pedidos.map(p => `
+        <tr>
+          <td>${p.op || '-'}</td>
+          <td>${p.cliente || '-'}</td>
+          <td>${p.descricao || '-'}</td>
+          <td>${p.qtd || 0}</td>
+          <td>${moeda((p.qtd || 0) * (p.valor || 0))}</td>
+          <td>${p.entrega || '-'}</td>
+          <td><span class="status ${statusClass(p.status)}">${p.status || 'Novo'}</span></td>
+          <td>${p.anexo || '-'}</td>
+        </tr>`).join('')}</tbody></table>`;
+    }
+
+    function renderProducao() {
+      const box = document.getElementById('tabelaProducao');
+      if (!producoes.length) {
+        box.innerHTML = '<p class="small">Nenhum apontamento lançado.</p>';
+        return;
+      }
+      box.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Máquina</th><th>Operador</th><th>Qtd</th><th>Horas</th><th>Status</th></tr></thead><tbody>${producoes.map(p => `
+        <tr><td>${p.data || '-'}</td><td>${p.op || '-'}</td><td>${p.maquina || '-'}</td><td>${p.operador || '-'}</td><td>${p.qtd || 0}</td><td>${p.horas || 0}</td><td>${p.status || '-'}</td></tr>`).join('')}</tbody></table>`;
+    }
+
+    function renderEntregas() {
+      const box = document.getElementById('tabelaEntregas');
+      if (!entregas.length) {
+        box.innerHTML = '<p class="small">Nenhuma entrega lançada.</p>';
+        return;
+      }
+      box.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Cliente</th><th>Qtd</th><th>Responsável</th></tr></thead><tbody>${entregas.map(e => `
+        <tr><td>${e.data || '-'}</td><td>${e.op || '-'}</td><td>${e.cliente || '-'}</td><td>${e.qtd || 0}</td><td>${e.responsavel || '-'}</td></tr>`).join('')}</tbody></table>`;
+    }
+
+    function renderFinanceiro() {
+      const total = pedidos.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
+      const entregue = pedidos.filter(p => p.status === 'Entregue').reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
+      const aberto = total - entregue;
+      document.getElementById('finAberto').textContent = moeda(aberto);
+      document.getElementById('finEntregue').textContent = moeda(entregue);
+      document.getElementById('finTotal').textContent = moeda(total);
+    }
+
+    function renderClientes() {
+      const box = document.getElementById('listaClientes');
+      const clientes = [...new Set(pedidos.map(p => p.cliente).filter(Boolean))];
+      if (!clientes.length) {
+        box.innerHTML = '<p class="small">Nenhum cliente identificado ainda.</p>';
+        return;
+      }
+      box.innerHTML = `<table><thead><tr><th>Cliente</th><th>Pedidos</th><th>Valor total</th></tr></thead><tbody>${clientes.map(c => {
+        const ps = pedidos.filter(p => p.cliente === c);
+        const valor = ps.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
+        return `<tr><td>${c}</td><td>${ps.length}</td><td>${moeda(valor)}</td></tr>`;
+      }).join('')}</tbody></table>`;
+    }
+  </script>
 </body>
 </html>
