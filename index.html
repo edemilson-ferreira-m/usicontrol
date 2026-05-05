@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>USICONTROL V6 - Controle Inteligente para Usinagens</title>
+  <title>USICONTROL V6.1 - Controle Inteligente para Usinagens</title>
 
   <style>
     :root {
-      --bg: #08111f;
-      --card: #101b2e;
-      --card2: #13223a;
-      --primary: #1e88ff;
-      --primary2: #00c2ff;
+      --bg: #050914;
+      --card: rgba(10, 18, 32, 0.84);
+      --primary: #1e9bff;
+      --primary2: #00d4ff;
       --success: #28c76f;
       --warning: #ffb020;
       --danger: #ff4d4f;
-      --text: #f3f7ff;
-      --muted: #9fb0c9;
-      --border: rgba(255,255,255,0.12);
-      --shadow: 0 18px 45px rgba(0,0,0,0.35);
+      --text: #f4f8ff;
+      --muted: #b5c5dc;
+      --border: rgba(255,255,255,0.16);
+      --shadow: 0 24px 60px rgba(0,0,0,0.42);
       --radius: 18px;
     }
 
@@ -27,23 +26,36 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: radial-gradient(circle at top left, #15345f 0, #08111f 35%, #050914 100%);
       color: var(--text);
       min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(3,8,18,0.96), rgba(4,14,28,0.88), rgba(3,8,18,0.96)),
+        url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1800&q=80') center/cover fixed;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(30,155,255,0.26), transparent 28%),
+        radial-gradient(circle at 80% 25%, rgba(0,212,255,0.16), transparent 25%);
+      z-index: -1;
     }
 
     header {
       padding: 22px 18px;
       border-bottom: 1px solid var(--border);
-      background: rgba(8,17,31,0.88);
-      backdrop-filter: blur(10px);
+      background: rgba(4, 10, 20, 0.82);
+      backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 10;
     }
 
     .topbar {
-      max-width: 1180px;
+      max-width: 1220px;
       margin: auto;
       display: flex;
       justify-content: space-between;
@@ -52,52 +64,36 @@
       flex-wrap: wrap;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 26px;
-      letter-spacing: 1px;
-    }
-
-    .brand p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .brand h1 { margin: 0; font-size: 28px; letter-spacing: 1.5px; }
+    .brand p { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
 
     .badge {
       border: 1px solid var(--border);
       padding: 9px 13px;
       border-radius: 999px;
       color: var(--muted);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.06);
       font-size: 13px;
     }
 
-    main {
-      max-width: 1180px;
-      margin: auto;
-      padding: 22px 16px 55px;
-    }
+    main { max-width: 1220px; margin: auto; padding: 22px 16px 55px; }
 
-    .grid {
-      display: grid;
-      gap: 16px;
-    }
-
+    .grid { display: grid; gap: 16px; }
     .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
     .card {
-      background: linear-gradient(145deg, rgba(16,27,46,0.98), rgba(10,18,32,0.98));
+      background: linear-gradient(145deg, var(--card), rgba(6, 12, 24, 0.86));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 18px;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
     }
 
     .hero {
-      min-height: 430px;
+      min-height: 500px;
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 20px;
@@ -106,26 +102,12 @@
 
     h2, h3 { margin-top: 0; }
 
-    .hero h2 {
-      font-size: 42px;
-      line-height: 1.08;
-      margin-bottom: 12px;
-    }
+    .hero h2 { font-size: 46px; line-height: 1.06; margin-bottom: 12px; }
+    .hero p, .small { color: var(--muted); font-size: 14px; line-height: 1.55; }
 
-    .hero p {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.55;
-    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
 
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    button, .btn {
+    button {
       border: 0;
       border-radius: 13px;
       padding: 12px 15px;
@@ -133,40 +115,31 @@
       cursor: pointer;
       color: white;
       background: linear-gradient(135deg, var(--primary), var(--primary2));
-      box-shadow: 0 10px 25px rgba(30,136,255,0.22);
+      box-shadow: 0 10px 25px rgba(30,136,255,0.25);
     }
 
-    button.secondary, .btn.secondary {
+    button.secondary {
       background: rgba(255,255,255,0.08);
       border: 1px solid var(--border);
       color: var(--text);
       box-shadow: none;
     }
 
-    button.danger { background: var(--danger); }
-    button.success { background: var(--success); }
-    button.warning { background: var(--warning); color: #141414; }
-
     input, select, textarea {
       width: 100%;
       padding: 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.075);
       color: var(--text);
       outline: none;
       margin-top: 6px;
     }
 
     option { color: #111; }
+    textarea { min-height: 115px; resize: vertical; }
 
-    textarea { min-height: 90px; resize: vertical; }
-
-    label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
+    label { color: var(--muted); font-size: 13px; font-weight: 700; }
 
     .form-grid {
       display: grid;
@@ -180,19 +153,11 @@
       padding: 16px;
       border-radius: 16px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.055);
+      background: rgba(255,255,255,0.065);
     }
 
-    .kpi span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 7px;
-    }
-
-    .kpi strong {
-      font-size: 24px;
-    }
+    .kpi span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 7px; }
+    .kpi strong { font-size: 24px; }
 
     .tabs {
       display: flex;
@@ -202,9 +167,9 @@
     }
 
     .tab {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.075);
       border: 1px solid var(--border);
-      color: var(--muted);
+      color: #c7daf4;
       padding: 10px 13px;
       border-radius: 999px;
       cursor: pointer;
@@ -217,13 +182,7 @@
       border-color: transparent;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px; }
     th, td {
       padding: 11px 9px;
       border-bottom: 1px solid var(--border);
@@ -231,68 +190,77 @@
       font-size: 13px;
       vertical-align: top;
     }
+    th { color: var(--muted); background: rgba(255,255,255,0.07); }
 
-    th {
-      color: var(--muted);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .s-novo { background: rgba(30,136,255,0.18); color: #8dc5ff; }
-    .s-producao { background: rgba(255,176,32,0.18); color: #ffd28a; }
-    .s-entregue { background: rgba(40,199,111,0.18); color: #8af0b8; }
-    .s-atrasado { background: rgba(255,77,79,0.18); color: #ff9b9c; }
+    .status { display: inline-block; padding: 5px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .s-novo { background: rgba(30,136,255,0.20); color: #8dc5ff; }
+    .s-producao { background: rgba(255,176,32,0.20); color: #ffd28a; }
+    .s-entregue { background: rgba(40,199,111,0.20); color: #8af0b8; }
+    .s-atrasado { background: rgba(255,77,79,0.20); color: #ff9b9c; }
 
     .hidden { display: none !important; }
-
-    .small { font-size: 12px; color: var(--muted); }
-
-    .login-box {
-      max-width: 430px;
-      margin: 35px auto;
-    }
+    .login-box { max-width: 450px; margin: 35px auto; }
 
     .alert {
       padding: 12px;
       border-radius: 13px;
       border: 1px solid var(--border);
       margin: 12px 0;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.07);
       color: var(--muted);
     }
 
-    .bar-wrap {
-      width: 100%;
-      height: 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      overflow: hidden;
+    .bar-wrap { width: 100%; height: 12px; background: rgba(255,255,255,0.09); border-radius: 999px; overflow: hidden; }
+    .bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary2)); width: 0%; }
+
+    .footer-note { color: var(--muted); text-align: center; font-size: 12px; margin-top: 30px; }
+
+    .op-sheet {
+      background: white;
+      color: #111;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 16px;
     }
 
-    .bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--primary2));
-      width: 0%;
+    .op-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 2px solid #111;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
     }
 
-    .footer-note {
-      color: var(--muted);
+    .op-title { font-size: 24px; font-weight: 800; }
+    .op-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .op-box { border: 1px solid #222; padding: 8px; border-radius: 6px; }
+    .drawing-box {
+      height: 420px;
+      border: 2px dashed #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      font-size: 12px;
-      margin-top: 30px;
+      margin-top: 12px;
+      padding: 16px;
+      background: #f7f7f7;
+    }
+
+    .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+    .check { border: 1px solid #222; padding: 8px; border-radius: 6px; }
+
+    @media print {
+      body { background: white !important; }
+      header, .tabs, .no-print, .footer-note, #sitePublico, #cadastroBox, #loginBox, #painel > .card:first-child { display: none !important; }
+      main { padding: 0; max-width: none; }
+      .card { box-shadow: none; border: none; background: white; padding: 0; }
+      .op-sheet { border-radius: 0; margin: 0; page-break-after: always; }
+      .page-break { page-break-before: always; }
     }
 
     @media (max-width: 900px) {
-      .hero, .grid-2, .grid-3, .grid-4, .form-grid {
-        grid-template-columns: 1fr;
-      }
+      .hero, .grid-2, .grid-3, .grid-4, .form-grid, .op-grid, .checklist { grid-template-columns: 1fr; }
       .hero h2 { font-size: 32px; }
       header { position: relative; }
       table { display: block; overflow-x: auto; white-space: nowrap; }
@@ -306,7 +274,7 @@
         <h1>USICONTROL</h1>
         <p>Do e-mail à entrega. Tudo sob controle.</p>
       </div>
-      <div class="badge" id="userBadge">V6 SaaS Industrial</div>
+      <div class="badge" id="userBadge">V6.1 Industrial Premium</div>
     </div>
   </header>
 
@@ -316,31 +284,28 @@
         <div class="card">
           <h2>Controle inteligente para terceiros de usinagem.</h2>
           <p>
-            Sistema para oficinas CNC, ferramentarias e prestadores industriais controlarem pedidos,
-            produção, entregas, valores e histórico comercial em um painel simples e profissional.
+            Receba desenhos por e-mail, transforme informações em OP, acompanhe produção,
+            gere romaneio e mantenha histórico técnico/comercial em um painel industrial.
           </p>
           <div class="btn-row">
             <button onclick="mostrarCadastro()">Começar agora</button>
             <button class="secondary" onclick="mostrarLogin()">Entrar no painel</button>
           </div>
           <div class="grid grid-3" style="margin-top:22px;">
-            <div class="kpi"><span>Pedidos</span><strong>OP</strong></div>
-            <div class="kpi"><span>Produção</span><strong>CNC</strong></div>
-            <div class="kpi"><span>Entrega</span><strong>Romaneio</strong></div>
+            <div class="kpi"><span>E-mail</span><strong>OCR</strong></div>
+            <div class="kpi"><span>Pedido</span><strong>OP</strong></div>
+            <div class="kpi"><span>Chão de fábrica</span><strong>PDF</strong></div>
           </div>
         </div>
 
         <div class="card">
-          <h3>Fluxo da V6</h3>
-          <p class="small">1. Empresa se cadastra</p>
-          <p class="small">2. Acessa painel próprio</p>
-          <p class="small">3. Registra pedidos e OPs</p>
-          <p class="small">4. Acompanha status de produção</p>
-          <p class="small">5. Controla entregas e valores</p>
-          <p class="small">6. Consulta dashboard executivo</p>
-          <div class="alert">
-            Esta versão já funciona com Firebase Realtime Database usando a estrutura por empresa.
-          </div>
+          <h3>Fluxo da V6.1</h3>
+          <p class="small">1. Cliente envia e-mail com tabela e desenhos</p>
+          <p class="small">2. Usuário cola o conteúdo no importador</p>
+          <p class="small">3. Sistema identifica MO, SO, código, desenho, descrição e quantidade</p>
+          <p class="small">4. Sistema cria pedidos/OPs</p>
+          <p class="small">5. Gera folha de impressão para operador</p>
+          <div class="alert">Próxima etapa técnica: integração real com Gmail/Outlook via backend.</div>
         </div>
       </div>
     </section>
@@ -349,40 +314,13 @@
       <div class="card login-box">
         <h2>Cadastro da empresa</h2>
         <div class="form-grid">
-          <div class="full">
-            <label>Nome da empresa</label>
-            <input id="cadEmpresa" placeholder="Ex: Usitech Usinagem" />
-          </div>
-          <div>
-            <label>Responsável</label>
-            <input id="cadResponsavel" placeholder="Nome" />
-          </div>
-          <div>
-            <label>Telefone / WhatsApp</label>
-            <input id="cadTelefone" placeholder="(19) 99999-9999" />
-          </div>
-          <div class="full">
-            <label>E-mail</label>
-            <input id="cadEmail" type="email" placeholder="empresa@email.com" />
-          </div>
-          <div>
-            <label>Senha</label>
-            <input id="cadSenha" type="password" placeholder="Crie uma senha" />
-          </div>
-          <div>
-            <label>Segmento</label>
-            <select id="cadSegmento">
-              <option>Usinagem CNC</option>
-              <option>Ferramentaria</option>
-              <option>Caldeiraria</option>
-              <option>Manutenção Industrial</option>
-              <option>Outro</option>
-            </select>
-          </div>
-          <div class="full">
-            <button onclick="cadastrarEmpresa()">Salvar cadastro</button>
-            <button class="secondary" onclick="voltarHome()" style="margin-top:8px;">Voltar</button>
-          </div>
+          <div class="full"><label>Nome da empresa</label><input id="cadEmpresa" placeholder="Ex: Usitech Usinagem" /></div>
+          <div><label>Responsável</label><input id="cadResponsavel" placeholder="Nome" /></div>
+          <div><label>Telefone / WhatsApp</label><input id="cadTelefone" placeholder="(19) 99999-9999" /></div>
+          <div class="full"><label>E-mail</label><input id="cadEmail" type="email" placeholder="empresa@email.com" /></div>
+          <div><label>Senha</label><input id="cadSenha" type="password" placeholder="Crie uma senha" /></div>
+          <div><label>Segmento</label><select id="cadSegmento"><option>Usinagem CNC</option><option>Ferramentaria</option><option>Caldeiraria</option><option>Manutenção Industrial</option><option>Outro</option></select></div>
+          <div class="full"><button onclick="cadastrarEmpresa()">Salvar cadastro</button><button class="secondary" onclick="voltarHome()" style="margin-top:8px;">Voltar</button></div>
         </div>
         <div id="msgCadastro" class="alert hidden"></div>
       </div>
@@ -391,17 +329,10 @@
     <section id="loginBox" class="hidden">
       <div class="card login-box">
         <h2>Entrar no painel</h2>
-        <label>E-mail</label>
-        <input id="loginEmail" type="email" placeholder="empresa@email.com" />
-        <label style="display:block;margin-top:12px;">Senha</label>
-        <input id="loginSenha" type="password" placeholder="Senha" />
-        <div class="btn-row">
-          <button onclick="loginEmpresa()">Entrar</button>
-          <button class="secondary" onclick="voltarHome()">Voltar</button>
-        </div>
-        <div class="alert">
-          Usuário de teste: <b>admin@usicontrol.com</b><br />Senha: <b>123456</b>
-        </div>
+        <label>E-mail</label><input id="loginEmail" type="email" placeholder="empresa@email.com" />
+        <label style="display:block;margin-top:12px;">Senha</label><input id="loginSenha" type="password" placeholder="Senha" />
+        <div class="btn-row"><button onclick="loginEmpresa()">Entrar</button><button class="secondary" onclick="voltarHome()">Voltar</button></div>
+        <div class="alert">Usuário de teste: <b>admin@usicontrol.com</b><br />Senha: <b>123456</b></div>
         <div id="msgLogin" class="alert hidden"></div>
       </div>
     </section>
@@ -409,21 +340,20 @@
     <section id="painel" class="hidden">
       <div class="card">
         <div class="topbar" style="padding:0;">
-          <div>
-            <h2 id="tituloPainel">Painel da empresa</h2>
-            <p class="small" id="subPainel">Gestão de pedidos, produção, entregas e financeiro</p>
-          </div>
+          <div><h2 id="tituloPainel">Painel da empresa</h2><p class="small" id="subPainel">Gestão industrial</p></div>
           <button class="secondary" onclick="sair()">Sair</button>
         </div>
       </div>
 
-      <div class="tabs">
+      <div class="tabs no-print">
         <div class="tab active" onclick="abrirAba('dashboard', this)">Dashboard</div>
+        <div class="tab" onclick="abrirAba('importar', this)">Importar E-mail</div>
         <div class="tab" onclick="abrirAba('pedidos', this)">Pedidos</div>
         <div class="tab" onclick="abrirAba('producao', this)">Produção</div>
         <div class="tab" onclick="abrirAba('entregas', this)">Entregas</div>
         <div class="tab" onclick="abrirAba('financeiro', this)">Financeiro</div>
         <div class="tab" onclick="abrirAba('clientes', this)">Clientes</div>
+        <div class="tab" onclick="abrirAba('opprint', this)">Imprimir OP</div>
       </div>
 
       <div id="aba-dashboard" class="aba">
@@ -433,18 +363,24 @@
           <div class="kpi"><span>Entregues</span><strong id="kpiEntregues">0</strong></div>
           <div class="kpi"><span>Faturamento previsto</span><strong id="kpiValor">R$ 0,00</strong></div>
         </div>
-
         <div class="grid grid-2" style="margin-top:16px;">
-          <div class="card">
-            <h3>Resumo operacional</h3>
-            <p class="small">Percentual de pedidos entregues</p>
-            <div class="bar-wrap"><div class="bar" id="barEntregas"></div></div>
-            <p class="small" id="txtEntregas">0%</p>
+          <div class="card"><h3>Resumo operacional</h3><p class="small">Percentual de pedidos entregues</p><div class="bar-wrap"><div class="bar" id="barEntregas"></div></div><p class="small" id="txtEntregas">0%</p></div>
+          <div class="card"><h3>Alertas</h3><div id="listaAlertas" class="small">Nenhum alerta.</div></div>
+        </div>
+      </div>
+
+      <div id="aba-importar" class="aba hidden">
+        <div class="card">
+          <h3>Importar e-mail com desenhos</h3>
+          <p class="small">Cole aqui a tabela copiada do e-mail. O sistema tentará identificar MO, SO, código, desenho, descrição, quantidade e cliente.</p>
+          <div class="form-grid">
+            <div><label>Cliente detectado/manual</label><input id="impCliente" placeholder="Ex: KPLI USINAGEM LTDA." /></div>
+            <div><label>Assunto do e-mail</label><input id="impAssunto" placeholder="DESENHOS TERCEIROS - KPLI USINAGEM" /></div>
+            <div class="full"><label>Corpo/tabela do e-mail</label><textarea id="impTexto" placeholder="Cole a tabela do e-mail aqui..."></textarea></div>
+            <div class="full"><label>Anexos recebidos</label><textarea id="impAnexos" placeholder="Ex: DAG15000100.pdf&#10;MCC77011100.pdf&#10;MCC77011200.pdf"></textarea></div>
+            <div class="full"><button onclick="processarEmail()">Ler informações do e-mail</button><button class="secondary" onclick="criarPedidosImportados()" style="margin-left:8px;">Criar OPs importadas</button></div>
           </div>
-          <div class="card">
-            <h3>Alertas</h3>
-            <div id="listaAlertas" class="small">Nenhum alerta.</div>
-          </div>
+          <div id="previewImportacao" style="margin-top:16px;"></div>
         </div>
       </div>
 
@@ -453,433 +389,275 @@
           <h3>Novo pedido / OP</h3>
           <div class="form-grid">
             <div><label>Cliente</label><input id="pCliente" placeholder="Nome do cliente" /></div>
-            <div><label>OP / Pedido</label><input id="pOP" placeholder="Ex: OP-001" /></div>
-            <div><label>Peça / descrição</label><input id="pDescricao" placeholder="Ex: Eixo usinado" /></div>
-            <div><label>Quantidade</label><input id="pQtd" type="number" placeholder="10" /></div>
-            <div><label>Valor unitário</label><input id="pValor" type="number" step="0.01" placeholder="150.00" /></div>
+            <div><label>OP / Pedido</label><input id="pOP" placeholder="Ex: WCH/MO/54099" /></div>
+            <div><label>SO</label><input id="pSO" placeholder="Ex: S03669" /></div>
+            <div><label>Código</label><input id="pCodigo" placeholder="Ex: P_038607" /></div>
+            <div><label>Desenho</label><input id="pDesenho" placeholder="Ex: DAG15000100.pdf" /></div>
+            <div><label>Quantidade</label><input id="pQtd" type="number" placeholder="2" /></div>
+            <div class="full"><label>Descrição</label><input id="pDescricao" placeholder="Descrição da peça" /></div>
+            <div><label>Valor unitário</label><input id="pValor" type="number" step="0.01" placeholder="0.00" /></div>
             <div><label>Data de entrega</label><input id="pEntrega" type="date" /></div>
-            <div><label>Status</label>
-              <select id="pStatus">
-                <option value="Novo">Novo</option>
-                <option value="Em produção">Em produção</option>
-                <option value="Entregue">Entregue</option>
-                <option value="Atrasado">Atrasado</option>
-              </select>
-            </div>
-            <div><label>Desenho / anexo</label><input id="pAnexo" placeholder="Nome do arquivo ou link" /></div>
+            <div><label>Status</label><select id="pStatus"><option value="Novo">Novo</option><option value="Em produção">Em produção</option><option value="Entregue">Entregue</option><option value="Atrasado">Atrasado</option></select></div>
             <div class="full"><label>Observações</label><textarea id="pObs" placeholder="Material, tratamento, tolerâncias, notas..."></textarea></div>
             <div class="full"><button onclick="salvarPedido()">Salvar pedido</button></div>
           </div>
         </div>
-
-        <div class="card" style="margin-top:16px;">
-          <h3>Lista de pedidos</h3>
-          <div id="tabelaPedidos"></div>
-        </div>
+        <div class="card" style="margin-top:16px;"><h3>Lista de pedidos</h3><div id="tabelaPedidos"></div></div>
       </div>
 
       <div id="aba-producao" class="aba hidden">
-        <div class="card">
-          <h3>Apontamento de produção</h3>
-          <div class="form-grid">
-            <div><label>OP</label><input id="prodOP" placeholder="OP-001" /></div>
-            <div><label>Máquina</label><input id="prodMaquina" placeholder="GL300, GL250, Fresa CNC..." /></div>
-            <div><label>Operador</label><input id="prodOperador" placeholder="Nome" /></div>
-            <div><label>Qtd produzida</label><input id="prodQtd" type="number" /></div>
-            <div><label>Horas trabalhadas</label><input id="prodHoras" type="number" step="0.01" /></div>
-            <div><label>Status</label>
-              <select id="prodStatus">
-                <option>Em produção</option>
-                <option>Pausado</option>
-                <option>Finalizado</option>
-              </select>
-            </div>
-            <div class="full"><label>Observação</label><textarea id="prodObs"></textarea></div>
-            <div class="full"><button onclick="salvarProducao()">Salvar apontamento</button></div>
-          </div>
-        </div>
+        <div class="card"><h3>Apontamento de produção</h3><div class="form-grid">
+          <div><label>OP</label><input id="prodOP" placeholder="OP" /></div><div><label>Máquina</label><input id="prodMaquina" placeholder="GL300, GL250..." /></div>
+          <div><label>Operador</label><input id="prodOperador" placeholder="Nome" /></div><div><label>Qtd produzida</label><input id="prodQtd" type="number" /></div>
+          <div><label>Horas trabalhadas</label><input id="prodHoras" type="number" step="0.01" /></div><div><label>Status</label><select id="prodStatus"><option>Em produção</option><option>Pausado</option><option>Finalizado</option></select></div>
+          <div class="full"><label>Observação</label><textarea id="prodObs"></textarea></div><div class="full"><button onclick="salvarProducao()">Salvar apontamento</button></div>
+        </div></div>
         <div class="card" style="margin-top:16px;"><h3>Histórico de produção</h3><div id="tabelaProducao"></div></div>
       </div>
 
       <div id="aba-entregas" class="aba hidden">
-        <div class="card">
-          <h3>Romaneio de entrega</h3>
-          <div class="form-grid">
-            <div><label>OP</label><input id="eOP" placeholder="OP-001" /></div>
-            <div><label>Cliente</label><input id="eCliente" placeholder="Cliente" /></div>
-            <div><label>Data da entrega</label><input id="eData" type="date" /></div>
-            <div><label>Quantidade entregue</label><input id="eQtd" type="number" /></div>
-            <div class="full"><label>Responsável / assinatura</label><input id="eResp" placeholder="Nome de quem recebeu" /></div>
-            <div class="full"><button onclick="salvarEntrega()">Salvar entrega</button></div>
-          </div>
-        </div>
+        <div class="card"><h3>Romaneio de entrega</h3><div class="form-grid">
+          <div><label>OP</label><input id="eOP" placeholder="OP" /></div><div><label>Cliente</label><input id="eCliente" placeholder="Cliente" /></div>
+          <div><label>Data da entrega</label><input id="eData" type="date" /></div><div><label>Quantidade entregue</label><input id="eQtd" type="number" /></div>
+          <div class="full"><label>Responsável / assinatura</label><input id="eResp" placeholder="Nome de quem recebeu" /></div><div class="full"><button onclick="salvarEntrega()">Salvar entrega</button></div>
+        </div></div>
         <div class="card" style="margin-top:16px;"><h3>Histórico de entregas</h3><div id="tabelaEntregas"></div></div>
       </div>
 
       <div id="aba-financeiro" class="aba hidden">
-        <div class="card">
-          <h3>Financeiro</h3>
-          <div class="grid grid-3">
-            <div class="kpi"><span>Valor em aberto</span><strong id="finAberto">R$ 0,00</strong></div>
-            <div class="kpi"><span>Valor entregue</span><strong id="finEntregue">R$ 0,00</strong></div>
-            <div class="kpi"><span>Total geral</span><strong id="finTotal">R$ 0,00</strong></div>
-          </div>
-        </div>
+        <div class="card"><h3>Financeiro</h3><div class="grid grid-3"><div class="kpi"><span>Valor em aberto</span><strong id="finAberto">R$ 0,00</strong></div><div class="kpi"><span>Valor entregue</span><strong id="finEntregue">R$ 0,00</strong></div><div class="kpi"><span>Total geral</span><strong id="finTotal">R$ 0,00</strong></div></div></div>
       </div>
 
-      <div id="aba-clientes" class="aba hidden">
-        <div class="card">
-          <h3>Clientes identificados</h3>
-          <div id="listaClientes"></div>
+      <div id="aba-clientes" class="aba hidden"><div class="card"><h3>Clientes identificados</h3><div id="listaClientes"></div></div></div>
+
+      <div id="aba-opprint" class="aba hidden">
+        <div class="card no-print">
+          <h3>Gerar OP para impressão</h3>
+          <div class="form-grid">
+            <div class="full"><label>Selecionar pedido</label><select id="selectOP" onchange="gerarOPImpressao()"></select></div>
+            <div class="full"><button onclick="gerarOPImpressao()">Gerar visualização</button><button class="secondary" onclick="window.print()" style="margin-left:8px;">Imprimir / Salvar PDF</button></div>
+          </div>
         </div>
+        <div id="opPrintArea"></div>
       </div>
     </section>
 
-    <p class="footer-note">USICONTROL V6 • Firebase + Netlify • Base SaaS para terceiros de usinagem</p>
+    <p class="footer-note">USICONTROL V6.1 • Firebase + Netlify • Importação de e-mail + OP imprimível</p>
   </main>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, push, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    const firebaseConfig = {
-      databaseURL: "https://usicontrol-a84cf-default-rtdb.firebaseio.com"
-    };
-
+    const firebaseConfig = { databaseURL: "https://usicontrol-a84cf-default-rtdb.firebaseio.com" };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    let empresaAtual = null;
-    let empresaIdAtual = null;
-    let pedidos = [];
-    let producoes = [];
-    let entregas = [];
+    let empresaAtual = null, empresaIdAtual = null;
+    let pedidos = [], producoes = [], entregas = [], importados = [];
 
-    const adminTeste = {
-      id: "admin_teste",
-      empresa: "Empresa Teste USICONTROL",
-      responsavel: "Edemilson",
-      telefone: "(19) 99999-9999",
-      email: "admin@usicontrol.com",
-      senha: "123456",
-      segmento: "Usinagem CNC"
-    };
+    const adminTeste = { id: "admin_teste", empresa: "Empresa Teste USICONTROL", responsavel: "Edemilson", telefone: "(19) 99999-9999", email: "admin@usicontrol.com", senha: "123456", segmento: "Usinagem CNC" };
 
-    function moeda(v) {
-      return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
+    function moeda(v) { return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+    function hojeISO() { return new Date().toISOString().slice(0,10); }
+    function normalizarEmail(email) { return String(email || '').trim().toLowerCase(); }
+    function statusClass(status) { if (status === 'Entregue') return 's-entregue'; if (status === 'Em produção') return 's-producao'; if (status === 'Atrasado') return 's-atrasado'; return 's-novo'; }
+    function caminhoEmpresa(sub) { return `dados/${empresaIdAtual}/${sub}`; }
 
-    function hojeISO() {
-      return new Date().toISOString().slice(0,10);
-    }
-
-    function normalizarEmail(email) {
-      return String(email || '').trim().toLowerCase();
-    }
-
-    function statusClass(status) {
-      if (status === 'Entregue') return 's-entregue';
-      if (status === 'Em produção') return 's-producao';
-      if (status === 'Atrasado') return 's-atrasado';
-      return 's-novo';
-    }
-
-    window.mostrarCadastro = function() {
-      document.getElementById('sitePublico').classList.add('hidden');
-      document.getElementById('loginBox').classList.add('hidden');
-      document.getElementById('cadastroBox').classList.remove('hidden');
-    }
-
-    window.mostrarLogin = function() {
-      document.getElementById('sitePublico').classList.add('hidden');
-      document.getElementById('cadastroBox').classList.add('hidden');
-      document.getElementById('loginBox').classList.remove('hidden');
-    }
-
-    window.voltarHome = function() {
-      document.getElementById('sitePublico').classList.remove('hidden');
-      document.getElementById('cadastroBox').classList.add('hidden');
-      document.getElementById('loginBox').classList.add('hidden');
-      document.getElementById('painel').classList.add('hidden');
-    }
+    window.mostrarCadastro = () => { sitePublico.classList.add('hidden'); loginBox.classList.add('hidden'); cadastroBox.classList.remove('hidden'); };
+    window.mostrarLogin = () => { sitePublico.classList.add('hidden'); cadastroBox.classList.add('hidden'); loginBox.classList.remove('hidden'); };
+    window.voltarHome = () => { sitePublico.classList.remove('hidden'); cadastroBox.classList.add('hidden'); loginBox.classList.add('hidden'); painel.classList.add('hidden'); };
 
     window.cadastrarEmpresa = async function() {
-      const empresa = document.getElementById('cadEmpresa').value.trim();
-      const responsavel = document.getElementById('cadResponsavel').value.trim();
-      const telefone = document.getElementById('cadTelefone').value.trim();
-      const email = normalizarEmail(document.getElementById('cadEmail').value);
-      const senha = document.getElementById('cadSenha').value.trim();
-      const segmento = document.getElementById('cadSegmento').value;
-      const msg = document.getElementById('msgCadastro');
-
-      if (!empresa || !responsavel || !email || !senha) {
-        msg.textContent = 'Preencha empresa, responsável, e-mail e senha.';
-        msg.classList.remove('hidden');
-        return;
-      }
-
-      const novaRef = push(ref(db, 'empresas'));
       const dados = {
-        id: novaRef.key,
-        empresa,
-        responsavel,
-        telefone,
-        email,
-        senha,
-        segmento,
-        criadoEm: new Date().toISOString()
+        empresa: cadEmpresa.value.trim(), responsavel: cadResponsavel.value.trim(), telefone: cadTelefone.value.trim(),
+        email: normalizarEmail(cadEmail.value), senha: cadSenha.value.trim(), segmento: cadSegmento.value, criadoEm: new Date().toISOString()
       };
-
+      if (!dados.empresa || !dados.responsavel || !dados.email || !dados.senha) { msgCadastro.textContent = 'Preencha empresa, responsável, e-mail e senha.'; msgCadastro.classList.remove('hidden'); return; }
+      const novaRef = push(ref(db, 'empresas'));
+      dados.id = novaRef.key;
       await set(novaRef, dados);
-      msg.innerHTML = 'Cadastro salvo com sucesso. Abrindo painel...';
-      msg.classList.remove('hidden');
-
+      msgCadastro.innerHTML = 'Cadastro salvo com sucesso. Abrindo painel...'; msgCadastro.classList.remove('hidden');
       abrirPainel(dados.id, dados);
-    }
+    };
 
     async function buscarEmpresaPorLogin(email, senha) {
       if (email === adminTeste.email && senha === adminTeste.senha) return adminTeste;
-
       const snap = await get(child(ref(db), 'empresas'));
       if (!snap.exists()) return null;
-
       const dados = snap.val();
-      for (const id in dados) {
-        const emp = dados[id];
-        if (normalizarEmail(emp.email) === email && String(emp.senha) === String(senha)) {
-          return { ...emp, id };
-        }
-      }
+      for (const id in dados) { const emp = dados[id]; if (normalizarEmail(emp.email) === email && String(emp.senha) === String(senha)) return { ...emp, id }; }
       return null;
     }
 
     window.loginEmpresa = async function() {
-      const email = normalizarEmail(document.getElementById('loginEmail').value);
-      const senha = document.getElementById('loginSenha').value.trim();
-      const msg = document.getElementById('msgLogin');
-
-      if (!email || !senha) {
-        msg.textContent = 'Informe e-mail e senha.';
-        msg.classList.remove('hidden');
-        return;
-      }
-
-      const emp = await buscarEmpresaPorLogin(email, senha);
-      if (!emp) {
-        msg.textContent = 'Login não encontrado. Confira e-mail e senha.';
-        msg.classList.remove('hidden');
-        return;
-      }
-
+      const emp = await buscarEmpresaPorLogin(normalizarEmail(loginEmail.value), loginSenha.value.trim());
+      if (!emp) { msgLogin.textContent = 'Login não encontrado. Confira e-mail e senha.'; msgLogin.classList.remove('hidden'); return; }
       abrirPainel(emp.id, emp);
-    }
+    };
 
     function abrirPainel(id, empresa) {
-      empresaAtual = empresa;
-      empresaIdAtual = id;
-
-      document.getElementById('sitePublico').classList.add('hidden');
-      document.getElementById('cadastroBox').classList.add('hidden');
-      document.getElementById('loginBox').classList.add('hidden');
-      document.getElementById('painel').classList.remove('hidden');
-      document.getElementById('tituloPainel').textContent = empresa.empresa || 'Painel da empresa';
-      document.getElementById('subPainel').textContent = `${empresa.segmento || 'Empresa'} • Responsável: ${empresa.responsavel || '-'}`;
-      document.getElementById('userBadge').textContent = empresa.empresa || 'Empresa logada';
-
+      empresaAtual = empresa; empresaIdAtual = id;
+      sitePublico.classList.add('hidden'); cadastroBox.classList.add('hidden'); loginBox.classList.add('hidden'); painel.classList.remove('hidden');
+      tituloPainel.textContent = empresa.empresa || 'Painel da empresa';
+      subPainel.textContent = `${empresa.segmento || 'Empresa'} • Responsável: ${empresa.responsavel || '-'}`;
+      userBadge.textContent = empresa.empresa || 'Empresa logada';
       carregarDados();
     }
 
-    window.sair = function() {
-      empresaAtual = null;
-      empresaIdAtual = null;
-      pedidos = [];
-      producoes = [];
-      entregas = [];
-      document.getElementById('userBadge').textContent = 'V6 SaaS Industrial';
-      voltarHome();
-    }
+    window.sair = function() { empresaAtual = null; empresaIdAtual = null; pedidos = []; producoes = []; entregas = []; userBadge.textContent = 'V6.1 Industrial Premium'; voltarHome(); };
 
     window.abrirAba = function(nome, el) {
       document.querySelectorAll('.aba').forEach(a => a.classList.add('hidden'));
       document.getElementById('aba-' + nome).classList.remove('hidden');
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-      atualizarTudo();
-    }
-
-    function caminhoEmpresa(sub) {
-      return `dados/${empresaIdAtual}/${sub}`;
-    }
+      el.classList.add('active'); atualizarTudo();
+    };
 
     function carregarDados() {
-      onValue(ref(db, caminhoEmpresa('pedidos')), snap => {
-        pedidos = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
-        atualizarTudo();
-      });
-
-      onValue(ref(db, caminhoEmpresa('producao')), snap => {
-        producoes = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
-        atualizarTudo();
-      });
-
-      onValue(ref(db, caminhoEmpresa('entregas')), snap => {
-        entregas = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : [];
-        atualizarTudo();
-      });
+      onValue(ref(db, caminhoEmpresa('pedidos')), snap => { pedidos = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : []; atualizarTudo(); });
+      onValue(ref(db, caminhoEmpresa('producao')), snap => { producoes = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : []; atualizarTudo(); });
+      onValue(ref(db, caminhoEmpresa('entregas')), snap => { entregas = snap.exists() ? Object.entries(snap.val()).map(([id, v]) => ({ id, ...v })) : []; atualizarTudo(); });
     }
+
+    window.processarEmail = function() {
+      const texto = impTexto.value;
+      const anexos = impAnexos.value.split(/\n|,|;/).map(a => a.trim()).filter(Boolean);
+      const clientePadrao = impCliente.value.trim() || extrairCliente(texto) || 'Cliente não identificado';
+      importados = [];
+
+      const linhas = texto.split('\n').map(l => l.trim()).filter(l => l.length > 8);
+      linhas.forEach(linha => {
+        const mo = (linha.match(/WCH\/MO\/\d+/i) || [''])[0];
+        const so = (linha.match(/S\d{5,}/i) || [''])[0];
+        const codigo = (linha.match(/P_\d+/i) || [''])[0];
+        const desenho = (linha.match(/[A-Z]{2,5}\d{6,}/i) || [''])[0];
+        const qtdMatch = linha.match(/\b(\d{1,4})(?:,00|\.00)?\b(?=\s*(KPLI|LTDA|$))/i) || linha.match(/\b(\d{1,4}),00\b/);
+        const qtd = qtdMatch ? Number(String(qtdMatch[1]).replace(',', '.')) : 0;
+
+        if (mo && (codigo || desenho)) {
+          let desc = linha;
+          [mo, so, codigo, desenho].forEach(x => { if (x) desc = desc.replace(x, ' '); });
+          desc = desc.replace(/\b\d{1,4},00\b/g, ' ').replace(/KPLI USINAGEM LTDA\.?/ig, ' ').replace(/\s+/g, ' ').trim();
+          const anexo = anexos.find(a => desenho && a.toUpperCase().includes(desenho.toUpperCase())) || (desenho ? desenho + '.pdf' : '');
+          importados.push({ cliente: clientePadrao, op: mo, so, codigo, desenho: anexo || desenho, descricao: desc, qtd: qtd || 1, valor: 0, entrega: '', status: 'Novo', obs: `Importado do e-mail: ${impAssunto.value || '-'}` });
+        }
+      });
+
+      renderPreviewImportacao();
+    };
+
+    function extrairCliente(texto) {
+      const m = texto.match(/KPLI USINAGEM LTDA\.?/i);
+      return m ? m[0].toUpperCase() : '';
+    }
+
+    function renderPreviewImportacao() {
+      if (!importados.length) { previewImportacao.innerHTML = '<div class="alert">Nenhuma linha reconhecida. Confira se a tabela foi colada com MO, código, desenho e quantidade.</div>'; return; }
+      previewImportacao.innerHTML = `<h3>Prévia das OPs detectadas</h3><table><thead><tr><th>MO/OP</th><th>SO</th><th>Código</th><th>Desenho</th><th>Descrição</th><th>Qtd</th><th>Cliente</th></tr></thead><tbody>${importados.map(p => `<tr><td>${p.op}</td><td>${p.so}</td><td>${p.codigo}</td><td>${p.desenho}</td><td>${p.descricao}</td><td>${p.qtd}</td><td>${p.cliente}</td></tr>`).join('')}</tbody></table>`;
+    }
+
+    window.criarPedidosImportados = async function() {
+      if (!empresaIdAtual) return alert('Faça login primeiro.');
+      if (!importados.length) return alert('Primeiro clique em Ler informações do e-mail.');
+      for (const p of importados) await push(ref(db, caminhoEmpresa('pedidos')), { ...p, criadoEm: new Date().toISOString(), origem: 'email_importado' });
+      alert(`${importados.length} OP(s) criada(s) com sucesso.`);
+      importados = []; impTexto.value = ''; impAnexos.value = ''; previewImportacao.innerHTML = '';
+    };
 
     window.salvarPedido = async function() {
       if (!empresaIdAtual) return alert('Faça login primeiro.');
-
-      const item = {
-        cliente: document.getElementById('pCliente').value.trim(),
-        op: document.getElementById('pOP').value.trim(),
-        descricao: document.getElementById('pDescricao').value.trim(),
-        qtd: Number(document.getElementById('pQtd').value || 0),
-        valor: Number(document.getElementById('pValor').value || 0),
-        entrega: document.getElementById('pEntrega').value,
-        status: document.getElementById('pStatus').value,
-        anexo: document.getElementById('pAnexo').value.trim(),
-        obs: document.getElementById('pObs').value.trim(),
-        criadoEm: new Date().toISOString()
-      };
-
-      if (!item.cliente || !item.op || !item.descricao) {
-        alert('Preencha Cliente, OP e Descrição.');
-        return;
-      }
-
+      const item = { cliente: pCliente.value.trim(), op: pOP.value.trim(), so: pSO.value.trim(), codigo: pCodigo.value.trim(), desenho: pDesenho.value.trim(), descricao: pDescricao.value.trim(), qtd: Number(pQtd.value || 0), valor: Number(pValor.value || 0), entrega: pEntrega.value, status: pStatus.value, obs: pObs.value.trim(), criadoEm: new Date().toISOString() };
+      if (!item.cliente || !item.op || !item.descricao) return alert('Preencha Cliente, OP e Descrição.');
       await push(ref(db, caminhoEmpresa('pedidos')), item);
-      ['pCliente','pOP','pDescricao','pQtd','pValor','pEntrega','pAnexo','pObs'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('pStatus').value = 'Novo';
-      alert('Pedido salvo.');
-    }
+      ['pCliente','pOP','pSO','pCodigo','pDesenho','pDescricao','pQtd','pValor','pEntrega','pObs'].forEach(id => document.getElementById(id).value = ''); pStatus.value = 'Novo'; alert('Pedido salvo.');
+    };
 
     window.salvarProducao = async function() {
-      if (!empresaIdAtual) return alert('Faça login primeiro.');
-      const item = {
-        op: document.getElementById('prodOP').value.trim(),
-        maquina: document.getElementById('prodMaquina').value.trim(),
-        operador: document.getElementById('prodOperador').value.trim(),
-        qtd: Number(document.getElementById('prodQtd').value || 0),
-        horas: Number(document.getElementById('prodHoras').value || 0),
-        status: document.getElementById('prodStatus').value,
-        obs: document.getElementById('prodObs').value.trim(),
-        data: hojeISO(),
-        criadoEm: new Date().toISOString()
-      };
+      const item = { op: prodOP.value.trim(), maquina: prodMaquina.value.trim(), operador: prodOperador.value.trim(), qtd: Number(prodQtd.value || 0), horas: Number(prodHoras.value || 0), status: prodStatus.value, obs: prodObs.value.trim(), data: hojeISO(), criadoEm: new Date().toISOString() };
       if (!item.op || !item.maquina) return alert('Preencha OP e Máquina.');
-      await push(ref(db, caminhoEmpresa('producao')), item);
-      ['prodOP','prodMaquina','prodOperador','prodQtd','prodHoras','prodObs'].forEach(id => document.getElementById(id).value = '');
-      alert('Apontamento salvo.');
-    }
+      await push(ref(db, caminhoEmpresa('producao')), item); ['prodOP','prodMaquina','prodOperador','prodQtd','prodHoras','prodObs'].forEach(id => document.getElementById(id).value = ''); alert('Apontamento salvo.');
+    };
 
     window.salvarEntrega = async function() {
-      if (!empresaIdAtual) return alert('Faça login primeiro.');
-      const item = {
-        op: document.getElementById('eOP').value.trim(),
-        cliente: document.getElementById('eCliente').value.trim(),
-        data: document.getElementById('eData').value || hojeISO(),
-        qtd: Number(document.getElementById('eQtd').value || 0),
-        responsavel: document.getElementById('eResp').value.trim(),
-        criadoEm: new Date().toISOString()
-      };
+      const item = { op: eOP.value.trim(), cliente: eCliente.value.trim(), data: eData.value || hojeISO(), qtd: Number(eQtd.value || 0), responsavel: eResp.value.trim(), criadoEm: new Date().toISOString() };
       if (!item.op || !item.cliente) return alert('Preencha OP e Cliente.');
-      await push(ref(db, caminhoEmpresa('entregas')), item);
-      ['eOP','eCliente','eData','eQtd','eResp'].forEach(id => document.getElementById(id).value = '');
-      alert('Entrega salva.');
-    }
+      await push(ref(db, caminhoEmpresa('entregas')), item); ['eOP','eCliente','eData','eQtd','eResp'].forEach(id => document.getElementById(id).value = ''); alert('Entrega salva.');
+    };
 
-    function atualizarTudo() {
-      atualizarDashboard();
-      renderPedidos();
-      renderProducao();
-      renderEntregas();
-      renderFinanceiro();
-      renderClientes();
-    }
+    function atualizarTudo() { atualizarDashboard(); renderPedidos(); renderProducao(); renderEntregas(); renderFinanceiro(); renderClientes(); preencherSelectOP(); }
 
     function atualizarDashboard() {
-      const total = pedidos.length;
-      const emProd = pedidos.filter(p => p.status === 'Em produção').length;
-      const entregues = pedidos.filter(p => p.status === 'Entregue').length;
-      const valor = pedidos.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
-      const perc = total ? Math.round((entregues / total) * 100) : 0;
-
-      document.getElementById('kpiPedidos').textContent = total;
-      document.getElementById('kpiProducao').textContent = emProd;
-      document.getElementById('kpiEntregues').textContent = entregues;
-      document.getElementById('kpiValor').textContent = moeda(valor);
-      document.getElementById('barEntregas').style.width = perc + '%';
-      document.getElementById('txtEntregas').textContent = perc + '% dos pedidos entregues';
-
+      const total = pedidos.length, emProd = pedidos.filter(p => p.status === 'Em produção').length, entregues = pedidos.filter(p => p.status === 'Entregue').length;
+      const valor = pedidos.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0), perc = total ? Math.round((entregues / total) * 100) : 0;
+      kpiPedidos.textContent = total; kpiProducao.textContent = emProd; kpiEntregues.textContent = entregues; kpiValor.textContent = moeda(valor); barEntregas.style.width = perc + '%'; txtEntregas.textContent = perc + '% dos pedidos entregues';
       const atrasados = pedidos.filter(p => p.status === 'Atrasado' || (p.entrega && p.entrega < hojeISO() && p.status !== 'Entregue'));
-      document.getElementById('listaAlertas').innerHTML = atrasados.length
-        ? atrasados.map(p => `⚠️ ${p.op} - ${p.cliente} - entrega ${p.entrega || '-'}`).join('<br>')
-        : 'Nenhum alerta.';
+      listaAlertas.innerHTML = atrasados.length ? atrasados.map(p => `⚠️ ${p.op} - ${p.cliente} - entrega ${p.entrega || '-'}`).join('<br>') : 'Nenhum alerta.';
     }
 
     function renderPedidos() {
-      const box = document.getElementById('tabelaPedidos');
-      if (!pedidos.length) {
-        box.innerHTML = '<p class="small">Nenhum pedido lançado.</p>';
-        return;
-      }
-      box.innerHTML = `<table><thead><tr><th>OP</th><th>Cliente</th><th>Descrição</th><th>Qtd</th><th>Valor</th><th>Entrega</th><th>Status</th><th>Anexo</th></tr></thead><tbody>${pedidos.map(p => `
-        <tr>
-          <td>${p.op || '-'}</td>
-          <td>${p.cliente || '-'}</td>
-          <td>${p.descricao || '-'}</td>
-          <td>${p.qtd || 0}</td>
-          <td>${moeda((p.qtd || 0) * (p.valor || 0))}</td>
-          <td>${p.entrega || '-'}</td>
-          <td><span class="status ${statusClass(p.status)}">${p.status || 'Novo'}</span></td>
-          <td>${p.anexo || '-'}</td>
-        </tr>`).join('')}</tbody></table>`;
+      if (!pedidos.length) { tabelaPedidos.innerHTML = '<p class="small">Nenhum pedido lançado.</p>'; return; }
+      tabelaPedidos.innerHTML = `<table><thead><tr><th>OP</th><th>SO</th><th>Código</th><th>Desenho</th><th>Cliente</th><th>Descrição</th><th>Qtd</th><th>Valor</th><th>Status</th></tr></thead><tbody>${pedidos.map(p => `<tr><td>${p.op || '-'}</td><td>${p.so || '-'}</td><td>${p.codigo || '-'}</td><td>${p.desenho || '-'}</td><td>${p.cliente || '-'}</td><td>${p.descricao || '-'}</td><td>${p.qtd || 0}</td><td>${moeda((p.qtd || 0) * (p.valor || 0))}</td><td><span class="status ${statusClass(p.status)}">${p.status || 'Novo'}</span></td></tr>`).join('')}</tbody></table>`;
     }
 
     function renderProducao() {
-      const box = document.getElementById('tabelaProducao');
-      if (!producoes.length) {
-        box.innerHTML = '<p class="small">Nenhum apontamento lançado.</p>';
-        return;
-      }
-      box.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Máquina</th><th>Operador</th><th>Qtd</th><th>Horas</th><th>Status</th></tr></thead><tbody>${producoes.map(p => `
-        <tr><td>${p.data || '-'}</td><td>${p.op || '-'}</td><td>${p.maquina || '-'}</td><td>${p.operador || '-'}</td><td>${p.qtd || 0}</td><td>${p.horas || 0}</td><td>${p.status || '-'}</td></tr>`).join('')}</tbody></table>`;
+      if (!producoes.length) { tabelaProducao.innerHTML = '<p class="small">Nenhum apontamento lançado.</p>'; return; }
+      tabelaProducao.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Máquina</th><th>Operador</th><th>Qtd</th><th>Horas</th><th>Status</th></tr></thead><tbody>${producoes.map(p => `<tr><td>${p.data || '-'}</td><td>${p.op || '-'}</td><td>${p.maquina || '-'}</td><td>${p.operador || '-'}</td><td>${p.qtd || 0}</td><td>${p.horas || 0}</td><td>${p.status || '-'}</td></tr>`).join('')}</tbody></table>`;
     }
 
     function renderEntregas() {
-      const box = document.getElementById('tabelaEntregas');
-      if (!entregas.length) {
-        box.innerHTML = '<p class="small">Nenhuma entrega lançada.</p>';
-        return;
-      }
-      box.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Cliente</th><th>Qtd</th><th>Responsável</th></tr></thead><tbody>${entregas.map(e => `
-        <tr><td>${e.data || '-'}</td><td>${e.op || '-'}</td><td>${e.cliente || '-'}</td><td>${e.qtd || 0}</td><td>${e.responsavel || '-'}</td></tr>`).join('')}</tbody></table>`;
+      if (!entregas.length) { tabelaEntregas.innerHTML = '<p class="small">Nenhuma entrega lançada.</p>'; return; }
+      tabelaEntregas.innerHTML = `<table><thead><tr><th>Data</th><th>OP</th><th>Cliente</th><th>Qtd</th><th>Responsável</th></tr></thead><tbody>${entregas.map(e => `<tr><td>${e.data || '-'}</td><td>${e.op || '-'}</td><td>${e.cliente || '-'}</td><td>${e.qtd || 0}</td><td>${e.responsavel || '-'}</td></tr>`).join('')}</tbody></table>`;
     }
 
     function renderFinanceiro() {
       const total = pedidos.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
       const entregue = pedidos.filter(p => p.status === 'Entregue').reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
-      const aberto = total - entregue;
-      document.getElementById('finAberto').textContent = moeda(aberto);
-      document.getElementById('finEntregue').textContent = moeda(entregue);
-      document.getElementById('finTotal').textContent = moeda(total);
+      finAberto.textContent = moeda(total - entregue); finEntregue.textContent = moeda(entregue); finTotal.textContent = moeda(total);
     }
 
     function renderClientes() {
-      const box = document.getElementById('listaClientes');
       const clientes = [...new Set(pedidos.map(p => p.cliente).filter(Boolean))];
-      if (!clientes.length) {
-        box.innerHTML = '<p class="small">Nenhum cliente identificado ainda.</p>';
-        return;
-      }
-      box.innerHTML = `<table><thead><tr><th>Cliente</th><th>Pedidos</th><th>Valor total</th></tr></thead><tbody>${clientes.map(c => {
-        const ps = pedidos.filter(p => p.cliente === c);
-        const valor = ps.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0);
-        return `<tr><td>${c}</td><td>${ps.length}</td><td>${moeda(valor)}</td></tr>`;
-      }).join('')}</tbody></table>`;
+      if (!clientes.length) { listaClientes.innerHTML = '<p class="small">Nenhum cliente identificado ainda.</p>'; return; }
+      listaClientes.innerHTML = `<table><thead><tr><th>Cliente</th><th>Pedidos</th><th>Valor total</th></tr></thead><tbody>${clientes.map(c => { const ps = pedidos.filter(p => p.cliente === c); const valor = ps.reduce((s, p) => s + (Number(p.qtd || 0) * Number(p.valor || 0)), 0); return `<tr><td>${c}</td><td>${ps.length}</td><td>${moeda(valor)}</td></tr>`; }).join('')}</tbody></table>`;
     }
+
+    function preencherSelectOP() {
+      if (!selectOP) return;
+      selectOP.innerHTML = '<option value="">Selecione...</option>' + pedidos.map(p => `<option value="${p.id}">${p.op || '-'} | ${p.cliente || '-'} | ${p.desenho || p.codigo || '-'}</option>`).join('');
+    }
+
+    window.gerarOPImpressao = function() {
+      const id = selectOP.value;
+      const p = pedidos.find(x => x.id === id) || pedidos[0];
+      if (!p) { opPrintArea.innerHTML = '<div class="alert no-print">Nenhum pedido disponível.</div>'; return; }
+      opPrintArea.innerHTML = `
+        <div class="op-sheet">
+          <div class="op-header"><div><div class="op-title">USICONTROL - ORDEM DE PRODUÇÃO</div><b>FRENTE: DESENHO / IDENTIFICAÇÃO</b></div><div><b>Data:</b> ${hojeISO()}<br><b>Status:</b> ${p.status || 'Novo'}</div></div>
+          <div class="op-grid">
+            <div class="op-box"><b>Cliente:</b><br>${p.cliente || '-'}</div><div class="op-box"><b>MO / OP:</b><br>${p.op || '-'}</div>
+            <div class="op-box"><b>SO:</b><br>${p.so || '-'}</div><div class="op-box"><b>Código:</b><br>${p.codigo || '-'}</div>
+            <div class="op-box"><b>Quantidade:</b><br>${p.qtd || 0}</div><div class="op-box"><b>Desenho:</b><br>${p.desenho || '-'}</div>
+            <div class="op-box" style="grid-column:1/-1;"><b>Descrição:</b><br>${p.descricao || '-'}</div>
+          </div>
+          <div class="drawing-box"><div><h2>DESENHO ANEXO</h2><p>${p.desenho || 'Inserir/abrir PDF do desenho original'}</p><p>Na versão com backend, o PDF original será anexado aqui automaticamente.</p></div></div>
+        </div>
+        <div class="op-sheet page-break">
+          <div class="op-header"><div><div class="op-title">USICONTROL - VERSO DA OP</div><b>CHECKLIST OPERACIONAL</b></div><div><b>OP:</b> ${p.op || '-'}<br><b>Cliente:</b> ${p.cliente || '-'}</div></div>
+          <div class="checklist">
+            <div class="check">☐ Material separado</div><div class="check">☐ Desenho conferido</div>
+            <div class="check">☐ Setup realizado</div><div class="check">☐ Primeira peça aprovada</div>
+            <div class="check">☐ Produção concluída</div><div class="check">☐ Inspeção realizada</div>
+            <div class="check">☐ Peças identificadas</div><div class="check">☐ Liberado para expedição</div>
+          </div>
+          <div class="op-grid" style="margin-top:12px;">
+            <div class="op-box"><b>Máquina:</b><br><br></div><div class="op-box"><b>Operador:</b><br><br></div>
+            <div class="op-box"><b>Início:</b><br><br></div><div class="op-box"><b>Fim:</b><br><br></div>
+            <div class="op-box" style="grid-column:1/-1; min-height:120px;"><b>Observações de produção / qualidade:</b><br></div>
+            <div class="op-box"><b>Ass. Operador:</b><br><br></div><div class="op-box"><b>Ass. Inspeção:</b><br><br></div>
+          </div>
+        </div>`;
+    };
   </script>
 </body>
 </html>
